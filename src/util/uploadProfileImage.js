@@ -1,0 +1,33 @@
+import { API_ENDPOINTS } from "./apiEndpoint";
+
+const CLOUDINARY_UPLOAD_PRESET = "smartfinance";
+
+const uploadProfileImage = async (imageFile) => {
+    const formData = new FormData();
+    formData.append("file", imageFile);
+    formData.append("upload_preset", CLOUDINARY_UPLOAD_PRESET);
+
+    try {
+
+        const response = await fetch(API_ENDPOINTS.UPLOAD_IMAGE, {
+            method: "POST",
+            body: formData,
+        });
+
+        if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(
+                `Image upload failed: ${errorData.error.message || response.statusText}`
+            );
+        }
+
+        const data = await response.json();
+        console.log("Image uploaded successfully:", data);
+        return data.secure_url;
+    } catch (error) {
+        console.error("Error uploading image:", error);
+        throw error;
+    }   
+};
+
+export default uploadProfileImage;
