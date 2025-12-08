@@ -10,6 +10,8 @@ import Home from "./pages/Home";
 import Filter from "./pages/Filter";
 import Forecast from "./pages/Forecast";
 import Planning from "./pages/Planning";
+import Budget from "./pages/Budget";
+import Recurring from "./pages/Recurring";
 
 const App = () => {
   return (
@@ -26,6 +28,8 @@ const App = () => {
           <Route path="/forecast" element={<Forecast />} />
           <Route path="/planning" element={<Planning />} />
           <Route path="/filter" element={<Filter />} />
+          <Route path="/budget" element={<Budget />} />
+          <Route path="/recurring" element={<Recurring />} />
         </Routes>
       </BrowserRouter>
     </>

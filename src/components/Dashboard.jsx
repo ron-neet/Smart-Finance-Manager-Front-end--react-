@@ -5,7 +5,6 @@ import Sidebar from "./Sidebar";
 
 const Dashboard = ({children, activeMenu}) => {
 
- 
   const { user } = useContext(AppContext);
   
   return (
@@ -19,7 +18,7 @@ const Dashboard = ({children, activeMenu}) => {
             <Sidebar activeMenu={activeMenu} />
           </div>
 
-          <div className="grow mx-5 bg-white p-6 rounded-xl shadow-lg">
+          <div className="grow mx-5 bg-gradient-to-br from-white to-gray-50 p-6 rounded-2xl shadow-xl border border-gray-100">
             {/* Main Content Area */}
             {children}
           </div>

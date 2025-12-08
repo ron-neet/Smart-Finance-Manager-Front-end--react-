@@ -20,5 +20,20 @@ export const API_ENDPOINTS = {
   EXPENSE_EXCEL_DOWNLOAD: "/expense/export",
   APPLY_FILTER: "/filter",
   GET_DASHBOARD_DATA: "/dashboard",
-  UPLOAD_IMAGE: `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/image/upload`
+  UPLOAD_IMAGE: `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/image/upload`,
+  // Recurring transactions
+  GET_RECURRING_TRANSACTIONS: "/recurring",
+  ADD_RECURRING_TRANSACTION: "/recurring",
+  UPDATE_RECURRING_TRANSACTION: (id) => `/recurring/${id}`,
+  DELETE_RECURRING_TRANSACTION: (id) => `/recurring/${id}`,
+  // Budget planning
+  GET_BUDGETS: "/budget",
+  ADD_BUDGET: "/budget",
+  UPDATE_BUDGET: (id) => `/budget/${id}`,
+  DELETE_BUDGET: (id) => `/budget/${id}`,
+  // Notifications
+  GET_NOTIFICATIONS: "/notifications",
+  MARK_NOTIFICATION_READ: (id) => `/notifications/${id}/read`,
+  // Currency
+  GET_EXCHANGE_RATES: "/currency/rates"
 };

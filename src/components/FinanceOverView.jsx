@@ -18,9 +18,9 @@ const FinanceOverView = ({ totalBalance, totalIncome, totalExpense }) => {
     ];
 
     return (
-        <div className="card p-6">
-            <div className="flex items-center justify-between">
-                <h5 className="text-lg font-semibold">Finance Overview</h5>
+        <div className="bg-gradient-to-br from-gray-50 to-gray-100 rounded-xl p-4 border border-gray-200">
+            <div className="flex items-center justify-between mb-4">
+                <h5 className="text-lg font-bold text-gray-800">Finance Overview</h5>
             </div>
             <CustomPieChart 
                 data={balanceData}

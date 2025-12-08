@@ -76,13 +76,21 @@ const Planning = () => {
         <div>
             <Dashboard activeMenu="Planning">
                 <div className="my-5 mx-auto w-full">
-                    <div className="flex items-center justify-between mb-6">
-                        <h1 className="text-2xl font-bold text-gray-800">Financial Planning</h1>
+                    {/* Header */}
+                    <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
+                        <div>
+                            <h1 className="text-3xl font-bold text-gray-800">Financial Planning</h1>
+                            <p className="text-gray-600 mt-2">Plan your savings goals and analyze your financial stability</p>
+                        </div>
+                        <div className="bg-gradient-to-r from-purple-500 to-indigo-600 text-white px-5 py-3 rounded-xl shadow-lg">
+                            <p className="text-sm">Current Balance</p>
+                            <p className="text-xl font-bold">${(dashboardData?.TotalBalance || 0).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</p>
+                        </div>
                     </div>
                     
                     {loading ? (
-                        <div className="flex justify-center items-center h-64">
-                            <p>Loading planning data...</p>
+                        <div className="flex justify-center items-center h-64 bg-white rounded-2xl shadow-lg">
+                            <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-purple-500"></div>
                         </div>
                     ) : dashboardData ? (
                         <div className="w-full">
@@ -93,8 +101,10 @@ const Planning = () => {
                             />
                         </div>
                     ) : (
-                        <div className="flex justify-center items-center h-64">
-                            <p>No planning data available</p>
+                        <div className="flex flex-col items-center justify-center h-64 bg-white rounded-2xl shadow-lg p-8">
+                            <div className="bg-gray-200 border-2 border-dashed rounded-xl w-16 h-16 mb-4"></div>
+                            <h3 className="text-lg font-medium text-gray-900 mb-1">No data available</h3>
+                            <p className="text-gray-500">We couldn't load your planning data at the moment</p>
                         </div>
                     )}
                 </div>

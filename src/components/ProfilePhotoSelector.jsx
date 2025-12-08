@@ -43,29 +43,31 @@ const ProfilePhotoSelector = ({ image, setImage }) => {
       />
 
       {!image ? (
-        <div className="w-20 h-20 flex items-center justify-center bg-purple-100 rounded-full relative">
-          <User className="text-purple-500" size={35} />
+        <div className="w-24 h-24 flex items-center justify-center bg-gradient-to-br from-purple-100 to-indigo-100 rounded-2xl relative border-2 border-dashed border-purple-300 hover:border-purple-400 transition-colors">
+          <User className="text-purple-500" size={40} />
           <button
             type="button"
             onClick={onChooseFile}
-            className="w-8 h-8 flex items-center justify-center bg-purple-600 rounded-full -bottom-1 -right-1 absolute text-white hover:bg-purple-700 transition"
+            className="w-10 h-10 flex items-center justify-center bg-gradient-to-r from-purple-500 to-indigo-500 rounded-full -bottom-2 -right-2 absolute text-white hover:from-purple-600 hover:to-indigo-600 transition-all shadow-lg"
           >
-            <Upload size={16} />
+            <Upload size={18} />
           </button>
         </div>
       ) : (
-        <div className="relative">
-          <img
-            src={previewUrl}
-            alt="Profile Preview"
-            className="w-20 h-20 object-cover rounded-full border border-gray-300"
-          />
+        <div className="relative group">
+          <div className="w-24 h-24 rounded-2xl overflow-hidden border-2 border-purple-200 shadow-lg">
+            <img
+              src={previewUrl}
+              alt="Profile Preview"
+              className="w-full h-full object-cover"
+            />
+          </div>
           <button
             type="button"
             onClick={handleRemoveImage}
-            className="w-6 h-6 flex items-center justify-center bg-red-600 rounded-full -top-1 -right-1 absolute text-white hover:bg-red-700 transition"
+            className="w-8 h-8 flex items-center justify-center bg-red-500 rounded-full -top-2 -right-2 absolute text-white hover:bg-red-600 transition-all shadow-lg opacity-0 group-hover:opacity-100"
           >
-            <Trash size={15} />
+            <Trash size={16} />
           </button>
         </div>
       )}

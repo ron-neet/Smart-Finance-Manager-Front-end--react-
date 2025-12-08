@@ -10,14 +10,14 @@ const Input = ({ label, value, onChange, placeholder, type, isSelect, options })
     };
 
     return (
-        <div className="mb-4">
-            <label className="text-[13px] text-slate-800 block mb-1">
+        <div className="mb-5">
+            <label className="text-sm font-medium text-gray-700 block mb-2">
                 {label}
             </label>
             <div className="relative">
                 {isSelect ? (
                     <select
-                        className="w-full bg-transparent outline-none border border-gray-300 rounded-md py-2 px-3 text-gray-700 leading focus:outline-none focus:border-blue-500"
+                        className="w-full bg-white outline-none border border-gray-300 rounded-xl py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200 shadow-sm"
                         value={value}
                         onChange={(e) => onChange(e)}
                     >
@@ -31,7 +31,7 @@ const Input = ({ label, value, onChange, placeholder, type, isSelect, options })
                     </select>
                 ) : (
                     <input
-                        className="w-full bg-transparent outline-none border border-gray-300 rounded-md py-2 px-3 pr-10 text-gray-700 leading-tight focus:outline-none focus:border-blue-500"
+                        className="w-full bg-white outline-none border border-gray-300 rounded-xl py-3 px-4 pr-10 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200 shadow-sm"
                         type={type === 'Password' ? (showPassword ? 'text' : 'password') : type}
                         placeholder={placeholder}
                         value={value}
@@ -44,13 +44,13 @@ const Input = ({ label, value, onChange, placeholder, type, isSelect, options })
                         {showPassword ? (
                             <Eye
                                 size={20}
-                                className="text-purple-900"
+                                className="text-purple-600"
                                 onClick={togglePasswordVisibility}
                             />
                         ) : (
                             <EyeOff
                                 size={20}
-                                className="text-slate-400"
+                                className="text-gray-400"
                                 onClick={togglePasswordVisibility} />
                         )}
                     </span>

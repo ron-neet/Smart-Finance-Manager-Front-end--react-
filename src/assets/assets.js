@@ -1,6 +1,6 @@
 import logo from './logo.jpg';
 import login_bg from './login_bg.jpg';
-import { Coins, FunnelPlus, LayoutDashboard, List, Wallet, TrendingUp, BarChart3 } from 'lucide-react';
+import { Coins, FunnelPlus, LayoutDashboard, List, Wallet, TrendingUp, BarChart3, Calendar, PiggyBank } from 'lucide-react';
 
 export const assets = {
     logo,
@@ -46,6 +46,18 @@ export const SIDE_BAR_DATA = [
     },
     {
         id : "07",
+        label : "Budget",
+        icon : PiggyBank,
+        path : "/budget"
+    },
+    {
+        id : "08",
+        label : "Recurring",
+        icon : Calendar,
+        path : "/recurring"
+    },
+    {
+        id : "09",
         label : "Filter",
         icon : FunnelPlus,
         path : "/filter"

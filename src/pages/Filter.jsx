@@ -1,4 +1,4 @@
-import { Search } from "lucide-react";
+import { Search, Filter as FilterIcon, Calendar, SortDesc, DollarSign } from "lucide-react";
 import Dashboard from "../components/Dashboard";
 import { useState } from "react";
 import { useUser } from "../hooks/useUser";
@@ -6,6 +6,7 @@ import axiosConfig from "../util/axiosConfig";
 import { API_ENDPOINTS } from "../util/apiEndpoint";
 import TransactionInfoCard from "../components/TransactionInfoCard";
 import moment from "moment";
+import toast from "react-hot-toast";
 
 const Filter = () => {
 
@@ -99,93 +100,192 @@ const Filter = () => {
         <div>
             <Dashboard activeMenu="Filter">
                 <div className="my-5 mx-auto">
-                    <div className="flex items-center justify-between mb-4">
-                        <h1 className="text-2xl font-semibold">
-                            Filter Transaction
-                        </h1>
+                    {/* Header */}
+                    <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
+                        <div>
+                            <h1 className="text-3xl font-bold text-gray-800">Transaction Filter</h1>
+                            <p className="text-gray-600 mt-2">Search and filter your income and expense transactions</p>
+                        </div>
+                        <div className="flex items-center gap-3 bg-gradient-to-r from-purple-500 to-indigo-600 text-white px-5 py-3 rounded-xl shadow-lg">
+                            <FilterIcon size={20} />
+                            <span className="font-medium">{transactions.length} Results</span>
+                        </div>
                     </div>
-                    <div className="card p-4 mb-4">
-                        <div className="flex items-center justify-between mb-4">
-                            <h5 className="text-lg font-semibold">
-                                Select the Filter
+                    
+                    {/* Filter Card */}
+                    <div className="bg-white rounded-2xl shadow-xl p-6 mb-8 border border-gray-100">
+                        <div className="flex items-center gap-3 mb-6">
+                            <div className="p-2 bg-purple-100 rounded-lg">
+                                <FilterIcon className="text-purple-600" size={24} />
+                            </div>
+                            <h5 className="text-xl font-bold text-gray-800">
+                                Filter Options
                             </h5>
                         </div>
-                        <form className="flex flex-wrap items-end gap-4" onSubmit={handleSearch}>
+                        
+                        <form className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6" onSubmit={handleSearch}>
                             <div>
-                                <label className="block mb-2 text-sm font-medium" htmlFor="type">
-                                    Type
+                                <label className="block mb-2 text-sm font-medium text-gray-700" htmlFor="type">
+                                    Transaction Type
                                 </label>
-                                <select id="type" className="w-full px-4 py-2 rounded border border-gray-300" value={type} onChange={(e) => setType(e.target.value)}>
+                                <select 
+                                    id="type" 
+                                    className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-purple-500 focus:border-purple-500 shadow-sm transition-all"
+                                    value={type} 
+                                    onChange={(e) => setType(e.target.value)}
+                                >
                                     <option value="income">Income</option>
                                     <option value="expense">Expense</option>
                                 </select>
                             </div>
+                            
                             <div>
-                                <label className="block mb-2 text-sm font-medium" htmlFor="startdate">
+                                <label className="block mb-2 text-sm font-medium text-gray-700" htmlFor="startdate">
                                     Start Date
                                 </label>
-                                <input type="date" id="startdate" className="w-full px-4 py-2 rounded border border-gray-300" value={startdate} onChange={(e) => setStartdate(e.target.value)} />
+                                <div className="relative">
+                                    <input 
+                                        type="date" 
+                                        id="startdate" 
+                                        className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-purple-500 focus:border-purple-500 shadow-sm transition-all"
+                                        value={startdate} 
+                                        onChange={(e) => setStartdate(e.target.value)} 
+                                    />
+                                    <div className="absolute inset-y-0 right-0 flex items-center pr-3">
+                                        <Calendar className="text-gray-400" size={20} />
+                                    </div>
+                                </div>
                             </div>
+                            
                             <div>
-                                <label className="block mb-2 text-sm font-medium" htmlFor="enddate">
+                                <label className="block mb-2 text-sm font-medium text-gray-700" htmlFor="enddate">
                                     End Date
                                 </label>
-                                <input type="date" id="enddate" className="w-full px-4 py-2 rounded border border-gray-300" value={enddate} onChange={(e) => setEnddate(e.target.value)} />
+                                <div className="relative">
+                                    <input 
+                                        type="date" 
+                                        id="enddate" 
+                                        className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-purple-500 focus:border-purple-500 shadow-sm transition-all"
+                                        value={enddate} 
+                                        onChange={(e) => setEnddate(e.target.value)} 
+                                    />
+                                    <div className="absolute inset-y-0 right-0 flex items-center pr-3">
+                                        <Calendar className="text-gray-400" size={20} />
+                                    </div>
+                                </div>
                             </div>
+                            
                             <div>
-                                <label className="block mb-2 text-sm font-medium" htmlFor="sortfield">
-                                    Sort Field
+                                <label className="block mb-2 text-sm font-medium text-gray-700" htmlFor="sortfield">
+                                    Sort By
                                 </label>
-                                <select id="sortfield" className="w-full px-4 py-2 rounded border border-gray-300" value={sortField} onChange={(e) => setSortField(e.target.value)}>
+                                <select 
+                                    id="sortfield" 
+                                    className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-purple-500 focus:border-purple-500 shadow-sm transition-all"
+                                    value={sortField} 
+                                    onChange={(e) => setSortField(e.target.value)}
+                                >
                                     <option value="date">Date</option>
                                     <option value="amount">Amount</option>
                                     <option value="name">Category</option>
                                 </select>
                             </div>
+                            
                             <div>
-                                <label className="block mb-2 text-sm font-medium" htmlFor="sortorder">
+                                <label className="block mb-2 text-sm font-medium text-gray-700" htmlFor="sortorder">
                                     Sort Order
                                 </label>
-                                <select id="sortorder" className="w-full px-4 py-2 rounded border border-gray-300" value={sortorder} onChange={(e) => setSortorder(e.target.value)}>
+                                <select 
+                                    id="sortorder" 
+                                    className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-purple-500 focus:border-purple-500 shadow-sm transition-all"
+                                    value={sortorder} 
+                                    onChange={(e) => setSortorder(e.target.value)}
+                                >
                                     <option value="asc">Ascending</option>
                                     <option value="desc">Descending</option>
                                 </select>
                             </div>
-                            <div className="flex-1 min-w-[200px]">
-                                <label className="block mb-2 text-sm font-medium">
+                            
+                            <div className="md:col-span-2 lg:col-span-1">
+                                <label className="block mb-2 text-sm font-medium text-gray-700">
                                     Search
                                 </label>
-                                <div className="flex">
-                                    <input type="text" id="keyword" placeholder="Search....." className="w-full px-4 py-2 rounded-l border border-gray-300 border-r-0" value={keyword} onChange={(e) => setKeyword(e.target.value)} />
-                                    <button type="submit" className="bg-purple-800 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded-r flex items-center justify-center cursor-pointer">
-                                        <Search size={20} />
-                                    </button>
+                                <div className="relative">
+                                    <input 
+                                        type="text" 
+                                        placeholder="Search transactions..." 
+                                        className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-purple-500 focus:border-purple-500 shadow-sm transition-all pr-12"
+                                        value={keyword} 
+                                        onChange={(e) => setKeyword(e.target.value)} 
+                                    />
+                                    <div className="absolute inset-y-0 right-0 flex items-center pr-3">
+                                        <Search className="text-gray-400" size={20} />
+                                    </div>
                                 </div>
+                            </div>
+                            
+                            <div className="flex items-end">
+                                <button 
+                                    type="submit" 
+                                    className="w-full bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white font-medium py-3 px-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center gap-2"
+                                    disabled={loading}
+                                >
+                                    {loading ? (
+                                        <div className="animate-spin rounded-full h-5 w-5 border-t-2 border-b-2 border-white"></div>
+                                    ) : (
+                                        <>
+                                            <Search size={20} />
+                                            Apply Filters
+                                        </>
+                                    )}
+                                </button>
                             </div>
                         </form>
                     </div>
-                    <div className="card p-4 mb-4">
-                        <div className="flex items-center justify-between mb-4">
-                            <h1 className="text-2xl font-semibold">
-                                Transactions
-                            </h1>
+                    
+                    {/* Results Card */}
+                    <div className="bg-white rounded-2xl shadow-xl p-6 border border-gray-100">
+                        <div className="flex items-center justify-between mb-6">
+                            <div className="flex items-center gap-3">
+                                <div className="p-2 bg-purple-100 rounded-lg">
+                                    <DollarSign className="text-purple-600" size={24} />
+                                </div>
+                                <h1 className="text-xl font-bold text-gray-800">
+                                    Filtered Transactions
+                                </h1>
+                            </div>
+                            <div className="text-sm text-gray-500">
+                                {transactions.length} {transactions.length === 1 ? 'transaction' : 'transactions'}
+                            </div>
                         </div>
+                        
                         {transactions.length === 0 && !loading ? (
-                            <p className="text-gray-500">Select the filters and click apply to see the transactions.</p>
-                        ) : ""}
-                        {loading ? <p className="text-gray-500">Loading Transactions...</p>
-                            : ("")}
-                        {transactions.map((transaction, index) => (
-                            <TransactionInfoCard
-                                key={transaction.id}
-                                icon={transaction.icon}
-                                title={transaction.name}
-                                date={moment(transaction.date).format("DD/MM/YYYY")}
-                                amount={transaction.amount}
-                                type={transaction.type} // Use the transaction's actual type
-                                hideDeleteBtn={true} />
-
-                        ))}
+                            <div className="text-center py-12">
+                                <div className="bg-gray-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                                    <Search className="text-gray-400" size={32} />
+                                </div>
+                                <h3 className="text-lg font-medium text-gray-900 mb-1">No transactions found</h3>
+                                <p className="text-gray-500">Adjust your filters and try again</p>
+                            </div>
+                        ) : loading ? (
+                            <div className="flex justify-center items-center h-32">
+                                <div className="animate-spin rounded-full h-10 w-10 border-t-2 border-b-2 border-purple-500"></div>
+                            </div>
+                        ) : (
+                            <div className="space-y-4">
+                                {transactions.map((transaction, index) => (
+                                    <TransactionInfoCard
+                                        key={transaction.id}
+                                        icon={transaction.icon}
+                                        title={transaction.name}
+                                        date={moment(transaction.date).format("DD/MM/YYYY")}
+                                        amount={transaction.amount}
+                                        type={transaction.type} // Use the transaction's actual type
+                                        hideDeleteBtn={true} 
+                                    />
+                                ))}
+                            </div>
+                        )}
                     </div>
                 </div>
             </Dashboard>

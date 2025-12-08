@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { calculateSavingsProjection, calculateRequiredSavings, analyzeIncomeStability } from "../util/savingsInvestment";
 import { addThousandsSeparator } from "../util/utils";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, LineChart, Line, Legend } from "recharts";
+import { Target, TrendingUp, TrendingDown, Calendar, DollarSign } from "lucide-react";
 
 const SavingsGoalPlanner = ({ totalBalance, incomeHistory, expenseHistory }) => {
   const [savingsGoal, setSavingsGoal] = useState(10000);
@@ -127,72 +128,88 @@ const SavingsGoalPlanner = ({ totalBalance, incomeHistory, expenseHistory }) => 
 
   return (
     <div className="w-full">
-      <div className="bg-white rounded-xl shadow-lg p-6 mb-6">
-        <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-6">
-          <h2 className="text-2xl font-bold text-gray-800 mb-4 md:mb-0">Savings Goal Planner</h2>
-          <div className="bg-gradient-to-r from-purple-500 to-indigo-600 text-white px-4 py-2 rounded-lg">
-            <p className="text-sm">Current Balance</p>
-            <p className="text-xl font-bold">{formatCurrency(displayBalance)}</p>
+      {/* Header Card */}
+      <div className="bg-gradient-to-br from-white to-gray-50 rounded-2xl shadow-xl p-6 mb-8 border border-gray-100">
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+          <div>
+            <div className="flex items-center gap-3 mb-2">
+              <div className="p-2 bg-purple-100 rounded-lg">
+                <Target className="text-purple-600" size={24} />
+              </div>
+              <h2 className="text-2xl font-bold text-gray-800">Savings Goal Planner</h2>
+            </div>
+            <p className="text-gray-600">
+              Set your savings goals and track your progress with detailed projections
+            </p>
           </div>
-        </div>
-        
-        {/* Goal Input */}
-        <div className="mb-6">
-          <label className="block text-sm font-medium text-gray-700 mb-2">
-            Savings Goal ($)
-          </label>
-          <div className="relative">
-            <input
-              type="number"
-              value={savingsGoal}
-              onChange={handleGoalChange}
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 text-lg"
-              placeholder="Enter your savings goal"
-            />
-            <div className="absolute inset-y-0 right-0 flex items-center pr-3">
-              <span className="text-gray-500">USD</span>
+          <div className="bg-gradient-to-r from-purple-500 to-indigo-600 text-white px-5 py-3 rounded-xl shadow-lg">
+            <div className="flex items-center gap-2">
+              <DollarSign size={20} />
+              <div>
+                <p className="text-sm">Current Balance</p>
+                <p className="text-xl font-bold">{formatCurrency(displayBalance)}</p>
+              </div>
             </div>
           </div>
         </div>
         
-        {/* Tabs */}
-        <div className="flex flex-wrap border-b border-gray-200 mb-6">
-          <button
-            className={`py-3 px-6 font-medium text-sm rounded-t-lg transition-all duration-200 ${
-              activeTab === "projection"
-                ? "bg-purple-100 text-purple-700 border-b-2 border-purple-500"
-                : "text-gray-500 hover:text-gray-700 hover:bg-gray-50"
-            }`}
-            onClick={() => setActiveTab("projection")}
-          >
-            Time Projection
-          </button>
-          <button
-            className={`py-3 px-6 font-medium text-sm rounded-t-lg transition-all duration-200 ${
-              activeTab === "required"
-                ? "bg-purple-100 text-purple-700 border-b-2 border-purple-500"
-                : "text-gray-500 hover:text-gray-700 hover:bg-gray-50"
-            }`}
-            onClick={() => setActiveTab("required")}
-          >
-            Required Savings
-          </button>
-          <button
-            className={`py-3 px-6 font-medium text-sm rounded-t-lg transition-all duration-200 ${
-              activeTab === "stability"
-                ? "bg-purple-100 text-purple-700 border-b-2 border-purple-500"
-                : "text-gray-500 hover:text-gray-700 hover:bg-gray-50"
-            }`}
-            onClick={() => setActiveTab("stability")}
-          >
-            Income Analysis
-          </button>
+        {/* Goal Input */}
+        <div className="mt-8">
+          <label className="block text-sm font-medium text-gray-700 mb-3">
+            Savings Goal ($)
+          </label>
+          <div className="relative max-w-md">
+            <input
+              type="number"
+              value={savingsGoal}
+              onChange={handleGoalChange}
+              className="w-full px-5 py-4 border border-gray-300 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-purple-500 text-lg shadow-sm transition-all"
+              placeholder="Enter your savings goal"
+            />
+            <div className="absolute inset-y-0 right-0 flex items-center pr-5">
+              <span className="text-gray-500 font-medium">USD</span>
+            </div>
+          </div>
         </div>
       </div>
       
-      {/* Tab Content with Full Width Layout */}
+      {/* Tabs */}
+      <div className="flex flex-wrap border-b border-gray-200 mb-8">
+        <button
+          className={`py-4 px-8 font-medium text-base rounded-t-xl transition-all duration-300 ${
+            activeTab === "projection"
+              ? "bg-gradient-to-r from-purple-500 to-indigo-500 text-white shadow-lg"
+              : "text-gray-500 hover:text-gray-700 hover:bg-gray-50"
+          }`}
+          onClick={() => setActiveTab("projection")}
+        >
+          Time Projection
+        </button>
+        <button
+          className={`py-4 px-8 font-medium text-base rounded-t-xl transition-all duration-300 ${
+            activeTab === "required"
+              ? "bg-gradient-to-r from-purple-500 to-indigo-500 text-white shadow-lg"
+              : "text-gray-500 hover:text-gray-700 hover:bg-gray-50"
+          }`}
+          onClick={() => setActiveTab("required")}
+        >
+          Required Savings
+        </button>
+        <button
+          className={`py-4 px-8 font-medium text-base rounded-t-xl transition-all duration-300 ${
+            activeTab === "stability"
+              ? "bg-gradient-to-r from-purple-500 to-indigo-500 text-white shadow-lg"
+              : "text-gray-500 hover:text-gray-700 hover:bg-gray-50"
+          }`}
+          onClick={() => setActiveTab("stability")}
+        >
+          Income Analysis
+        </button>
+      </div>
+      
+      {/* Tab Content */}
       {activeTab === "projection" && (
-        <div className="bg-white rounded-xl shadow-lg p-6">
+        <div className="bg-white rounded-2xl shadow-xl p-6 border border-gray-100">
           <div className="flex flex-col lg:flex-row gap-8">
             {/* Chart Section - Left Side */}
             <div className="lg:w-7/12 h-96">
@@ -207,7 +224,7 @@ const SavingsGoalPlanner = ({ totalBalance, incomeHistory, expenseHistory }) => 
                       labelFormatter={(label) => `Month: ${label}`}
                       contentStyle={{ 
                         backgroundColor: 'white', 
-                        borderRadius: '8px',
+                        borderRadius: '12px',
                         border: '1px solid #eee',
                         boxShadow: '0 4px 12px rgba(0,0,0,0.1)'
                       }}
@@ -239,13 +256,13 @@ const SavingsGoalPlanner = ({ totalBalance, incomeHistory, expenseHistory }) => 
             {/* Content Section - Right Side */}
             <div className="lg:w-5/12">
               {/* Projection Type Selector */}
-              <div className="mb-6">
-                <h3 className="text-lg font-semibold text-gray-800 mb-3">Projection Type</h3>
+              <div className="mb-8">
+                <h3 className="text-lg font-bold text-gray-800 mb-4">Projection Type</h3>
                 <div className="flex flex-wrap gap-3">
                   <button
-                    className={`px-4 py-2 text-sm rounded-lg font-medium transition-all duration-200 ${
+                    className={`px-5 py-3 text-sm rounded-xl font-medium transition-all duration-300 shadow-md ${
                       projectionType === "conservative"
-                        ? "bg-red-500 text-white shadow-md"
+                        ? "bg-gradient-to-r from-red-500 to-red-600 text-white"
                         : "bg-red-100 text-red-800 hover:bg-red-200"
                     }`}
                     onClick={() => handleProjectionTypeChange("conservative")}
@@ -253,9 +270,9 @@ const SavingsGoalPlanner = ({ totalBalance, incomeHistory, expenseHistory }) => 
                     Conservative
                   </button>
                   <button
-                    className={`px-4 py-2 text-sm rounded-lg font-medium transition-all duration-200 ${
+                    className={`px-5 py-3 text-sm rounded-xl font-medium transition-all duration-300 shadow-md ${
                       projectionType === "average"
-                        ? "bg-yellow-500 text-white shadow-md"
+                        ? "bg-gradient-to-r from-yellow-500 to-yellow-600 text-white"
                         : "bg-yellow-100 text-yellow-800 hover:bg-yellow-200"
                     }`}
                     onClick={() => handleProjectionTypeChange("average")}
@@ -263,9 +280,9 @@ const SavingsGoalPlanner = ({ totalBalance, incomeHistory, expenseHistory }) => 
                     Average
                   </button>
                   <button
-                    className={`px-4 py-2 text-sm rounded-lg font-medium transition-all duration-200 ${
+                    className={`px-5 py-3 text-sm rounded-xl font-medium transition-all duration-300 shadow-md ${
                       projectionType === "optimistic"
-                        ? "bg-green-500 text-white shadow-md"
+                        ? "bg-gradient-to-r from-green-500 to-green-600 text-white"
                         : "bg-green-100 text-green-800 hover:bg-green-200"
                     }`}
                     onClick={() => handleProjectionTypeChange("optimistic")}
@@ -277,45 +294,47 @@ const SavingsGoalPlanner = ({ totalBalance, incomeHistory, expenseHistory }) => 
               
               {projection ? (
                 <div>
-                  <div className="bg-gradient-to-r from-purple-50 to-indigo-50 p-5 rounded-xl mb-6 border border-purple-100">
-                    <h3 className="font-semibold text-gray-800 mb-3">Projection Summary</h3>
+                  <div className="bg-gradient-to-br from-purple-50 to-indigo-50 p-6 rounded-2xl mb-8 border border-purple-100 shadow-sm">
+                    <h3 className="font-bold text-gray-800 mb-4">Projection Summary</h3>
                     {projection.isAchievable ? (
-                      <div className="flex items-end gap-2">
-                        <p className="text-3xl font-bold text-purple-600">
+                      <div className="flex items-end gap-3 mb-6">
+                        <p className="text-4xl font-bold text-purple-600">
                           {projection.monthsToGoal}
                         </p>
                         <div>
-                          <p className="text-lg font-medium">months</p>
+                          <p className="text-xl font-medium">months</p>
                           <p className="text-gray-600">({projection.yearsToGoal} years)</p>
                         </div>
                       </div>
                     ) : (
-                      <p className="text-red-600 font-medium text-lg">
+                      <p className="text-red-600 font-medium text-lg mb-4">
                         Current spending exceeds income. Goal not achievable without changes.
                       </p>
                     )}
-                    <div className="grid grid-cols-3 gap-3 mt-4">
-                      <div className="bg-white p-3 rounded-lg text-center">
-                        <p className="text-gray-600 text-sm">Min/Month</p>
-                        <p className="font-bold text-red-500">{formatCurrency(projection.minSavings)}</p>
+                    <div className="grid grid-cols-3 gap-4">
+                      <div className="bg-white p-4 rounded-xl text-center shadow-sm">
+                        <p className="text-gray-600 text-sm mb-1">Min/Month</p>
+                        <p className="font-bold text-red-500 text-lg">{formatCurrency(projection.minSavings)}</p>
                       </div>
-                      <div className="bg-white p-3 rounded-lg text-center">
-                        <p className="text-gray-600 text-sm">Average</p>
-                        <p className="font-bold text-yellow-500">{formatCurrency(projection.averageSavings)}</p>
+                      <div className="bg-white p-4 rounded-xl text-center shadow-sm">
+                        <p className="text-gray-600 text-sm mb-1">Average</p>
+                        <p className="font-bold text-yellow-500 text-lg">{formatCurrency(projection.averageSavings)}</p>
                       </div>
-                      <div className="bg-white p-3 rounded-lg text-center">
-                        <p className="text-gray-600 text-sm">Max/Month</p>
-                        <p className="font-bold text-green-500">{formatCurrency(projection.maxSavings)}</p>
+                      <div className="bg-white p-4 rounded-xl text-center shadow-sm">
+                        <p className="text-gray-600 text-sm mb-1">Max/Month</p>
+                        <p className="font-bold text-green-500 text-lg">{formatCurrency(projection.maxSavings)}</p>
                       </div>
                     </div>
                   </div>
                   
                   <div>
-                    <h3 className="font-semibold text-gray-800 mb-3">Recommendations</h3>
-                    <ul className="space-y-3">
+                    <h3 className="font-bold text-gray-800 mb-4">Recommendations</h3>
+                    <ul className="space-y-4">
                       {projection.recommendations.map((rec, index) => (
-                        <li key={index} className="flex items-start bg-gray-50 p-3 rounded-lg">
-                          <span className="text-purple-500 mr-3 mt-1">•</span>
+                        <li key={index} className="flex items-start bg-gray-50 p-4 rounded-xl border border-gray-100">
+                          <div className="flex-shrink-0 mt-1 mr-3">
+                            <div className="w-2 h-2 bg-purple-500 rounded-full"></div>
+                          </div>
                           <span className="text-gray-700">{rec}</span>
                         </li>
                       ))}
@@ -323,8 +342,9 @@ const SavingsGoalPlanner = ({ totalBalance, incomeHistory, expenseHistory }) => 
                   </div>
                 </div>
               ) : (
-                <div className="bg-gray-50 p-8 rounded-xl text-center">
-                  <p className="text-gray-500">Enter your financial details to see projections</p>
+                <div className="bg-gradient-to-br from-gray-50 to-gray-100 p-8 rounded-2xl text-center border border-gray-200">
+                  <div className="bg-gray-200 border-2 border-dashed rounded-xl w-16 h-16 mx-auto mb-4"></div>
+                  <p className="text-gray-500 font-medium">Enter your financial details to see projections</p>
                 </div>
               )}
             </div>
@@ -333,57 +353,68 @@ const SavingsGoalPlanner = ({ totalBalance, incomeHistory, expenseHistory }) => 
       )}
       
       {activeTab === "required" && (
-        <div className="bg-white rounded-xl shadow-lg p-6">
+        <div className="bg-white rounded-2xl shadow-xl p-6 border border-gray-100">
           <div className="max-w-3xl mx-auto">
-            <div className="mb-6">
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+            <div className="mb-8">
+              <label className="block text-sm font-medium text-gray-700 mb-3">
                 Target Date
               </label>
-              <input
-                type="date"
-                value={targetDate}
-                onChange={handleDateChange}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 text-lg"
-              />
+              <div className="relative">
+                <input
+                  type="date"
+                  value={targetDate}
+                  onChange={handleDateChange}
+                  className="w-full px-5 py-4 border border-gray-300 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-purple-500 text-lg shadow-sm transition-all"
+                />
+                <div className="absolute inset-y-0 right-0 flex items-center pr-5">
+                  <Calendar className="text-gray-400" size={20} />
+                </div>
+              </div>
             </div>
             
             {requiredSavings ? (
               <div>
-                <div className="bg-gradient-to-r from-green-50 to-teal-50 p-6 rounded-xl mb-6 border border-green-100">
-                  <h3 className="font-semibold text-gray-800 mb-3">Required Savings</h3>
+                <div className="bg-gradient-to-br from-green-50 to-teal-50 p-6 rounded-2xl mb-8 border border-green-100 shadow-sm">
+                  <h3 className="font-bold text-gray-800 mb-4">Required Savings</h3>
                   {requiredSavings.isFeasible ? (
-                    <div className="flex items-end gap-2">
-                      <p className="text-3xl font-bold text-green-600">
+                    <div className="flex items-end gap-3 mb-4">
+                      <p className="text-4xl font-bold text-green-600">
                         {formatCurrency(requiredSavings.requiredMonthlySavings)}
                       </p>
-                      <p className="text-lg text-gray-600">per month</p>
+                      <p className="text-xl text-gray-600">per month</p>
                     </div>
                   ) : (
-                    <p className="text-red-600 font-medium text-lg">{requiredSavings.message}</p>
+                    <p className="text-red-600 font-medium text-lg mb-4">{requiredSavings.message}</p>
                   )}
-                  <p className="text-gray-600 mt-2">
+                  <p className="text-gray-600">
                     For {requiredSavings.monthsUntilTarget} months • Income volatility: {requiredSavings.incomeVolatility ? requiredSavings.incomeVolatility.toFixed(1) : '0'}%
                   </p>
                 </div>
                 
                 {requiredSavings.isFeasible && (
                   <div>
-                    <h3 className="font-semibold text-gray-800 mb-3">Tips to Reach Your Goal</h3>
-                    <ul className="space-y-3">
-                      <li className="flex items-start bg-gray-50 p-3 rounded-lg">
-                        <span className="text-green-500 mr-3 mt-1">•</span>
+                    <h3 className="font-bold text-gray-800 mb-4">Tips to Reach Your Goal</h3>
+                    <ul className="space-y-4">
+                      <li className="flex items-start bg-gray-50 p-4 rounded-xl border border-gray-100">
+                        <div className="flex-shrink-0 mt-1 mr-3">
+                          <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                        </div>
                         <span className="text-gray-700">
                           Set up an automatic transfer to your savings account during high-income periods
                         </span>
                       </li>
-                      <li className="flex items-start bg-gray-50 p-3 rounded-lg">
-                        <span className="text-green-500 mr-3 mt-1">•</span>
+                      <li className="flex items-start bg-gray-50 p-4 rounded-xl border border-gray-100">
+                        <div className="flex-shrink-0 mt-1 mr-3">
+                          <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                        </div>
                         <span className="text-gray-700">
                           During peak earning months, save extra to compensate for leaner months
                         </span>
                       </li>
-                      <li className="flex items-start bg-gray-50 p-3 rounded-lg">
-                        <span className="text-green-500 mr-3 mt-1">•</span>
+                      <li className="flex items-start bg-gray-50 p-4 rounded-xl border border-gray-100">
+                        <div className="flex-shrink-0 mt-1 mr-3">
+                          <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                        </div>
                         <span className="text-gray-700">
                           Build a buffer fund to handle income variability
                         </span>
@@ -393,8 +424,9 @@ const SavingsGoalPlanner = ({ totalBalance, incomeHistory, expenseHistory }) => 
                 )}
               </div>
             ) : (
-              <div className="bg-gray-50 p-8 rounded-xl text-center">
-                <p className="text-gray-500">Select a target date to calculate required savings</p>
+              <div className="bg-gradient-to-br from-gray-50 to-gray-100 p-8 rounded-2xl text-center border border-gray-200">
+                <div className="bg-gray-200 border-2 border-dashed rounded-xl w-16 h-16 mx-auto mb-4"></div>
+                <p className="text-gray-500 font-medium">Select a target date to calculate required savings</p>
               </div>
             )}
           </div>
@@ -402,7 +434,7 @@ const SavingsGoalPlanner = ({ totalBalance, incomeHistory, expenseHistory }) => 
       )}
       
       {activeTab === "stability" && (
-        <div className="bg-white rounded-xl shadow-lg p-6">
+        <div className="bg-white rounded-2xl shadow-xl p-6 border border-gray-100">
           <div className="flex flex-col lg:flex-row gap-8">
             {/* Chart Section - Left Side */}
             <div className="lg:w-7/12 h-96">
@@ -416,7 +448,7 @@ const SavingsGoalPlanner = ({ totalBalance, incomeHistory, expenseHistory }) => 
                       formatter={(value) => [`$${addThousandsSeparator(parseFloat(value).toFixed(2))}`, 'Amount']}
                       contentStyle={{ 
                         backgroundColor: 'white', 
-                        borderRadius: '8px',
+                        borderRadius: '12px',
                         border: '1px solid #eee',
                         boxShadow: '0 4px 12px rgba(0,0,0,0.1)'
                       }}
@@ -434,25 +466,25 @@ const SavingsGoalPlanner = ({ totalBalance, incomeHistory, expenseHistory }) => 
             <div className="lg:w-5/12">
               {incomeStability ? (
                 <div>
-                  <div className="bg-gradient-to-r from-blue-50 to-cyan-50 p-5 rounded-xl mb-6 border border-blue-100">
-                    <h3 className="font-semibold text-gray-800 mb-3">Income Stability Analysis</h3>
-                    <div className="grid grid-cols-2 gap-4 mb-4">
-                      <div className="bg-white p-4 rounded-lg">
-                        <p className="text-gray-600 text-sm">Average Monthly Income</p>
+                  <div className="bg-gradient-to-br from-blue-50 to-cyan-50 p-6 rounded-2xl mb-8 border border-blue-100 shadow-sm">
+                    <h3 className="font-bold text-gray-800 mb-4">Income Stability Analysis</h3>
+                    <div className="grid grid-cols-2 gap-4 mb-6">
+                      <div className="bg-white p-5 rounded-xl shadow-sm">
+                        <p className="text-gray-600 text-sm mb-2">Average Monthly Income</p>
                         <p className="text-2xl font-bold text-blue-600">
                           {formatCurrency(incomeStability.avgIncome)}
                         </p>
                       </div>
-                      <div className="bg-white p-4 rounded-lg">
-                        <p className="text-gray-600 text-sm">Income Volatility</p>
+                      <div className="bg-white p-5 rounded-xl shadow-sm">
+                        <p className="text-gray-600 text-sm mb-2">Income Volatility</p>
                         <p className="text-2xl font-bold text-blue-600">
                           {incomeStability.incomeVolatility ? incomeStability.incomeVolatility.toFixed(1) : '0'}%
                         </p>
                       </div>
                     </div>
-                    <div className="bg-white p-4 rounded-lg">
-                      <p className="text-gray-600 text-sm mb-1">Income Stability</p>
-                      <p className={`text-lg font-bold ${
+                    <div className="bg-white p-5 rounded-xl shadow-sm">
+                      <p className="text-gray-600 text-sm mb-2">Income Stability</p>
+                      <p className={`text-xl font-bold ${
                         incomeStability.stabilityLevel === 'stable' ? 'text-green-600' :
                         incomeStability.stabilityLevel === 'moderate' ? 'text-yellow-600' : 'text-red-600'
                       }`}>
@@ -462,11 +494,13 @@ const SavingsGoalPlanner = ({ totalBalance, incomeHistory, expenseHistory }) => 
                   </div>
                   
                   <div>
-                    <h3 className="font-semibold text-gray-800 mb-3">Recommendations</h3>
-                    <ul className="space-y-3">
+                    <h3 className="font-bold text-gray-800 mb-4">Recommendations</h3>
+                    <ul className="space-y-4">
                       {incomeStability.recommendations && incomeStability.recommendations.map((rec, index) => (
-                        <li key={index} className="flex items-start bg-gray-50 p-3 rounded-lg">
-                          <span className="text-blue-500 mr-3 mt-1">•</span>
+                        <li key={index} className="flex items-start bg-gray-50 p-4 rounded-xl border border-gray-100">
+                          <div className="flex-shrink-0 mt-1 mr-3">
+                            <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+                          </div>
                           <span className="text-gray-700">{rec}</span>
                         </li>
                       ))}
@@ -474,8 +508,9 @@ const SavingsGoalPlanner = ({ totalBalance, incomeHistory, expenseHistory }) => 
                   </div>
                 </div>
               ) : (
-                <div className="bg-gray-50 p-8 rounded-xl text-center">
-                  <p className="text-gray-500">Income history data needed for analysis</p>
+                <div className="bg-gradient-to-br from-gray-50 to-gray-100 p-8 rounded-2xl text-center border border-gray-200">
+                  <div className="bg-gray-200 border-2 border-dashed rounded-xl w-16 h-16 mx-auto mb-4"></div>
+                  <p className="text-gray-500 font-medium">Income history data needed for analysis</p>
                 </div>
               )}
             </div>

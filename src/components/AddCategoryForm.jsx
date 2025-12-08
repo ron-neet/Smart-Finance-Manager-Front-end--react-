@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import Input from "../components/Input"; // ✅ make sure Input has default export
+import Input from "./Input";
 import EmojiPickerPopup from "./EmojiPickerPopup";
 import { LoaderCircle } from "lucide-react";
 
@@ -24,7 +24,6 @@ const AddCategoryForm = ({ onAddCategory, initialCategoryData, isEditing }) => {
     const categoryTypeOptions = [
         { value: "income", label: "Income" },
         { value: "expense", label: "Expense" },
-
     ]
 
     const handleChange = (key, value) => {
@@ -36,14 +35,22 @@ const AddCategoryForm = ({ onAddCategory, initialCategoryData, isEditing }) => {
         try {
             await onAddCategory(category);
         } catch (error) {
-
+            console.error("Error submitting category:", error);
         } finally {
             setLoading(false);
         }
     }
 
     return (
-        <div className="p-4">
+        <div className="p-6">
+            <div className="mb-6">
+                <h3 className="text-lg font-bold text-gray-800 mb-2">
+                    {isEditing ? "Update Category" : "Add New Category"}
+                </h3>
+                <p className="text-gray-600 text-sm">
+                    {isEditing ? "Modify your category details" : "Create a new category for your transactions"}
+                </p>
+            </div>
 
             <EmojiPickerPopup
                 icon={category.icon}
@@ -57,6 +64,7 @@ const AddCategoryForm = ({ onAddCategory, initialCategoryData, isEditing }) => {
                 placeholder="e.g., Freelance, Salary, Groceries"
                 type="text"
             />
+            
             <Input
                 label="Category Type"
                 value={category.type}
@@ -65,15 +73,15 @@ const AddCategoryForm = ({ onAddCategory, initialCategoryData, isEditing }) => {
                 options={categoryTypeOptions}
             />
 
-            <div className="flex justify-end mt-6">
+            <div className="flex justify-end mt-8 pt-6 border-t border-gray-100">
                 <button
                     type="button"
                     onClick={handleSubmit}
                     disabled={loading}
-                    className="flex items-center gap-2 px-5 py-2 rounded-lg text-white font-medium transition-all duration-200 
-                   bg-gradient-to-r from-purple-600 to-indigo-500 
-                   hover:from-purple-700 hover:to-indigo-600 
-                   disabled:opacity-60 disabled:cursor-not-allowed shadow-lg"
+                    className="flex items-center gap-2 px-6 py-3 rounded-xl text-white font-medium transition-all duration-300 
+                   bg-gradient-to-r from-purple-600 to-indigo-600 
+                   hover:from-purple-700 hover:to-indigo-700 
+                   disabled:opacity-60 disabled:cursor-not-allowed shadow-lg hover:shadow-xl"
                 >
                     {loading ? (
                         <>
@@ -82,12 +90,11 @@ const AddCategoryForm = ({ onAddCategory, initialCategoryData, isEditing }) => {
                         </>
                     ) : (
                         <>
-                        {isEditing ? "Updating Category" : "Add Category"}
+                            {isEditing ? "Update Category" : "Add Category"}
                         </>
                     )}
                 </button>
             </div>
-
         </div>
     )
 }

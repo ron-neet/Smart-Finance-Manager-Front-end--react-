@@ -5,7 +5,7 @@ import axiosConfig from "../util/axiosConfig";
 import { API_ENDPOINTS } from "../util/apiEndpoint";
 import toast from "react-hot-toast";
 import ExpenseList from "../components/ExpenseList";
-import { Plus } from "lucide-react";
+import { Plus, TrendingDown } from "lucide-react";
 import Modal from "../components/Modal";
 import AddExpenseForm from "../components/AddExpenseForm";
 import DeleteAlert from "../components/DeleteAlert";
@@ -164,51 +164,88 @@ const Expense = () => {
         fetchExpenseCategories();
     }, []);
 
+    // Calculate total expense
+    const totalExpense = expenseData.reduce((sum, expense) => sum + parseFloat(expense.amount || 0), 0);
+
     return (
         <div>
             <Dashboard activeMenu="Expense">
                 <div className="my-5 mx-auto">
-                    <div className="grid grid-cols-1 gap-6">
-                        <div className="bg-gray-50 p-4 rounded-lg mb-6">
+                    {/* Header */}
+                    <div className="flex items-center justify-between mb-8">
+                        <div>
+                            <h1 className="text-3xl font-bold text-gray-800">Expense Management</h1>
+                            <p className="text-gray-600 mt-2">Track and manage all your expenses</p>
+                        </div>
+                        <button 
+                            onClick={() => setOpenAddExpenseModal(true)}
+                            className="flex items-center gap-2 bg-gradient-to-r from-rose-500 to-red-600 text-white px-6 py-3 rounded-xl hover:from-rose-600 hover:to-red-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
+                        >
+                            <Plus size={20} />
+                            <span className="font-medium">Add Expense</span>
+                        </button>
+                    </div>
+
+                    {/* Stats Card */}
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                        <div className="bg-gradient-to-br from-rose-500 to-red-600 rounded-2xl shadow-xl p-6 text-white border border-rose-300">
+                            <div className="flex items-center justify-between">
+                                <div>
+                                    <p className="text-rose-100 text-sm font-medium">Total Expenses</p>
+                                    <h3 className="text-3xl font-bold mt-1">${totalExpense.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</h3>
+                                </div>
+                                <div className="p-3 bg-white bg-opacity-20 rounded-full">
+                                    <TrendingDown className="h-8 w-8 text-white" />
+                                </div>
+                            </div>
+                            <div className="mt-4">
+                                <div className="flex items-center text-sm text-rose-200">
+                                    <span>+8.3% from last month</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="md:col-span-2 bg-white rounded-2xl shadow-xl p-6 border border-gray-100">
                             <ExpenseOverView transactions={expenseData} onAddExpense={() => setOpenAddExpenseModal(true)} />
                         </div>
-
-                        <div className="bg-gray-50 p-4 rounded-lg">
-                            <ExpenseList
-                                transactions={expenseData}
-                                onDownload={handleDownloadExpenseDetails}
-                                onEmail={handleEmailExpenseDetails}
-                                onDelete={(id) => setOpenDeleteAlert({ show: true, data: id })}
-                            />
-                        </div>
-
-                        <Modal
-                            isOpen={openAddExpenseModal}
-                            onClose={() => setOpenAddExpenseModal(false)}
-                            title="Add Expense"
-                        >
-                            <AddExpenseForm
-                                onAddExpense={(expense) => handleAddExpense(expense)}
-                                categories={categories}
-                            />
-                        </Modal>
-
-                        {/* Delete Alert Modal */}
-                        <Modal
-                            isOpen={openDeleteAlert.show}
-                            onClose={() => setOpenDeleteAlert({ show: false, data: null })}
-                            title="Delete Expense"
-                        >
-                            <DeleteAlert
-                                content="Are you sure you want to delete this expense details?"
-                                onDelete={async () => {
-                                    await deleteExpense(openDeleteAlert.data);
-                                    setOpenDeleteAlert({ show: false, data: null });
-                                }}
-                            />
-
-                        </Modal>
                     </div>
+
+                    {/* Expense List */}
+                    <div className="bg-white rounded-2xl shadow-xl p-6 border border-gray-100">
+                        <ExpenseList
+                            transactions={expenseData}
+                            onDownload={handleDownloadExpenseDetails}
+                            onEmail={handleEmailExpenseDetails}
+                            onDelete={(id) => setOpenDeleteAlert({ show: true, data: id })}
+                        />
+                    </div>
+
+                    {/* Add Expense Modal */}
+                    <Modal
+                        isOpen={openAddExpenseModal}
+                        onClose={() => setOpenAddExpenseModal(false)}
+                        title="Add New Expense"
+                    >
+                        <AddExpenseForm
+                            onAddExpense={(expense) => handleAddExpense(expense)}
+                            categories={categories}
+                        />
+                    </Modal>
+
+                    {/* Delete Alert Modal */}
+                    <Modal
+                        isOpen={openDeleteAlert.show}
+                        onClose={() => setOpenDeleteAlert({ show: false, data: null })}
+                        title="Delete Expense"
+                    >
+                        <DeleteAlert
+                            content="Are you sure you want to delete this expense record? This action cannot be undone."
+                            onDelete={async () => {
+                                await deleteExpense(openDeleteAlert.data);
+                                setOpenDeleteAlert({ show: false, data: null });
+                            }}
+                        />
+                    </Modal>
                 </div>
             </Dashboard>
         </div>
