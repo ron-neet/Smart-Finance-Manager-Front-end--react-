@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { assets } from "../assets/assets";
 import EmojiPickerPopup from "./EmojiPickerPopup";
 import Input from "./Input";
-import { LoaderCircle } from "lucide-react";
+import { LoaderCircle, TrendingDown } from "lucide-react";
 
 const AddExpenseForm = ({ onAddExpense, categories }) => {
 
@@ -44,7 +44,14 @@ const AddExpenseForm = ({ onAddExpense, categories }) => {
         }, [categories, expense.categoryId]);
 
     return (
-        <div>
+        <div className="p-2">
+            <div className="flex items-center gap-3 mb-6">
+                <div className="p-3 bg-red-100 rounded-xl">
+                    <TrendingDown className="text-red-600" size={28} />
+                </div>
+                <h3 className="text-2xl font-bold text-gray-800">Add New Expense</h3>
+            </div>
+            
             <EmojiPickerPopup
                 icon={expense.icon}
                 onSelect={(selectedIcon) => handleChange('icon', selectedIcon)}
@@ -82,19 +89,20 @@ const AddExpenseForm = ({ onAddExpense, categories }) => {
                 type="date"
             />
 
-            <div className="flex justify-end mt-6" >
+            <div className="flex justify-end mt-8" >
                 <button
-                    className="bg-[#dc2626] text-white px-4 py-2 rounded-md"
+                    className="bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white px-6 py-3 rounded-xl font-bold shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 flex items-center gap-2"
                     onClick={handleAddExpense}
                     disabled={loading}>
-
+                    
                     {loading ? (
                         <>
-                            <LoaderCircle className="animate-spin" />
+                            <LoaderCircle className="animate-spin" size={20} />
                             Adding...
                         </>
                     ) : (
                         <>
+                            <TrendingDown size={20} />
                             Add Expense
                         </>
                     )}

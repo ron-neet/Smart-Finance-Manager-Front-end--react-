@@ -8,7 +8,7 @@ const Dashboard = ({children, activeMenu}) => {
   const { user } = useContext(AppContext);
   
   return (
-    <div>
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
       <MenuBar activeMenu={activeMenu} />
 
      {user && (
@@ -18,7 +18,7 @@ const Dashboard = ({children, activeMenu}) => {
             <Sidebar activeMenu={activeMenu} />
           </div>
 
-          <div className="grow mx-5 bg-gradient-to-br from-white to-gray-50 p-6 rounded-2xl shadow-xl border border-gray-100">
+          <div className="grow mx-5 bg-gradient-to-br from-white to-gray-50 p-6 rounded-2xl shadow-xl border border-gray-100 mb-6">
             {/* Main Content Area */}
             {children}
           </div>

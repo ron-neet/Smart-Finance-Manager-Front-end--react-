@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { assets } from "../assets/assets";
 import EmojiPickerPopup from "./EmojiPickerPopup";
 import Input from "./Input";
-import { LoaderCircle } from "lucide-react";
+import { LoaderCircle, TrendingUp } from "lucide-react";
 
 const AddIncomeForm = ({ onAddIncome, categories }) => {
 
@@ -44,7 +44,14 @@ const AddIncomeForm = ({ onAddIncome, categories }) => {
         }, [categories, income.categoryId]);
 
     return (
-        <div>
+        <div className="p-2">
+            <div className="flex items-center gap-3 mb-6">
+                <div className="p-3 bg-green-100 rounded-xl">
+                    <TrendingUp className="text-green-600" size={28} />
+                </div>
+                <h3 className="text-2xl font-bold text-gray-800">Add New Income</h3>
+            </div>
+            
             <EmojiPickerPopup
                 icon={income.icon}
                 onSelect={(selectedIcon) => handleChange('icon', selectedIcon)}
@@ -82,19 +89,20 @@ const AddIncomeForm = ({ onAddIncome, categories }) => {
                 type="date"
             />
 
-            <div className="flex justify-end mt-6" >
+            <div className="flex justify-end mt-8" >
                 <button
-                    className="bg-[#059669] text-white px-4 py-2 rounded-md"
+                    className="bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white px-6 py-3 rounded-xl font-bold shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 flex items-center gap-2"
                     onClick={handleAddIncome}
                     disabled={loading}>
-
+                    
                     {loading ? (
                         <>
-                            <LoaderCircle className="animate-spin" />
+                            <LoaderCircle className="animate-spin" size={20} />
                             Adding...
                         </>
                     ) : (
                         <>
+                            <TrendingUp size={20} />
                             Add Income
                         </>
                     )}

@@ -5,7 +5,7 @@ import axiosConfig from "../util/axiosConfig";
 import { API_ENDPOINTS } from "../util/apiEndpoint";
 import toast from "react-hot-toast";
 import IncomeList from "../components/IncomeList";
-import { Plus, TrendingUp } from "lucide-react";
+import { Plus, TrendingUp, Download, Mail } from "lucide-react";
 import Modal from "../components/Modal";
 import AddIncomeForm from "../components/AddIncomeForm";
 import DeleteAlert from "../components/DeleteAlert";
@@ -167,30 +167,46 @@ const Income = () => {
             <Dashboard activeMenu="Income">
                 <div className="my-5 mx-auto">
                     {/* Header */}
-                    <div className="flex items-center justify-between mb-8">
+                    <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
                         <div>
-                            <h1 className="text-3xl font-bold text-gray-800">Income Management</h1>
-                            <p className="text-gray-600 mt-2">Track and manage all your income sources</p>
+                            <h1 className="text-4xl font-bold text-gray-800">Income Management</h1>
+                            <p className="text-gray-600 mt-2 text-lg">Track and manage all your income sources</p>
                         </div>
-                        <button 
-                            onClick={() => setOpenAddIncomeModal(true)}
-                            className="flex items-center gap-2 bg-gradient-to-r from-purple-600 to-indigo-600 text-white px-6 py-3 rounded-xl hover:from-purple-700 hover:to-indigo-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
-                        >
-                            <Plus size={20} />
-                            <span className="font-medium">Add Income</span>
-                        </button>
+                        <div className="flex gap-3">
+                            <button 
+                                onClick={handleDownloadIncomeDetails}
+                                className="flex items-center gap-2 bg-gradient-to-r from-blue-500 to-indigo-500 text-white px-5 py-3 rounded-xl hover:from-blue-600 hover:to-indigo-600 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1"
+                            >
+                                <Download size={20} />
+                                <span className="font-bold">Download</span>
+                            </button>
+                            <button 
+                                onClick={handleEmailIncomeDetails}
+                                className="flex items-center gap-2 bg-gradient-to-r from-purple-500 to-indigo-500 text-white px-5 py-3 rounded-xl hover:from-purple-600 hover:to-indigo-600 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1"
+                            >
+                                <Mail size={20} />
+                                <span className="font-bold">Email</span>
+                            </button>
+                            <button 
+                                onClick={() => setOpenAddIncomeModal(true)}
+                                className="flex items-center gap-2 bg-gradient-to-r from-green-500 to-emerald-500 text-white px-5 py-3 rounded-xl hover:from-green-600 hover:to-emerald-600 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1"
+                            >
+                                <Plus size={20} />
+                                <span className="font-bold">Add Income</span>
+                            </button>
+                        </div>
                     </div>
 
                     {/* Stats Card */}
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-                        <div className="bg-gradient-to-br from-green-500 to-emerald-600 rounded-2xl shadow-xl p-6 text-white border border-green-300">
+                        <div className="bg-gradient-to-br from-green-500 to-emerald-600 rounded-2xl shadow-xl p-6 text-white border border-green-300 hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
                             <div className="flex items-center justify-between">
                                 <div>
-                                    <p className="text-green-100 text-sm font-medium">Total Income</p>
-                                    <h3 className="text-3xl font-bold mt-1">${totalIncome.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</h3>
+                                    <p className="text-green-100 text-sm font-bold">Total Income</p>
+                                    <h3 className="text-3xl font-bold mt-2">${totalIncome.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</h3>
                                 </div>
                                 <div className="p-3 bg-white bg-opacity-20 rounded-full">
-                                    <TrendingUp className="h-8 w-8 text-white" />
+                                    <TrendingUp className="h-8 w-8 text-indigo-800" />
                                 </div>
                             </div>
                             <div className="mt-4">
@@ -200,13 +216,13 @@ const Income = () => {
                             </div>
                         </div>
 
-                        <div className="md:col-span-2 bg-white rounded-2xl shadow-xl p-6 border border-gray-100">
+                        <div className="md:col-span-2 bg-white rounded-2xl shadow-xl p-6 border border-gray-100 hover:shadow-2xl transition-all duration-300">
                             <IncomeOverView transactions={incomeData} onAddIncome={() => setOpenAddIncomeModal(true)} />
                         </div>
                     </div>
 
                     {/* Income List */}
-                    <div className="bg-white rounded-2xl shadow-xl p-6 border border-gray-100">
+                    <div className="bg-white rounded-2xl shadow-xl p-6 border border-gray-100 hover:shadow-2xl transition-all duration-300">
                         <IncomeList
                             transactions={incomeData}
                             onDownload={handleDownloadIncomeDetails}

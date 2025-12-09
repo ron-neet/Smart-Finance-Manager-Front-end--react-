@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import Input from "./Input";
 import EmojiPickerPopup from "./EmojiPickerPopup";
-import { LoaderCircle } from "lucide-react";
+import { LoaderCircle, Tag } from "lucide-react";
 
 const AddCategoryForm = ({ onAddCategory, initialCategoryData, isEditing }) => {
 
@@ -43,13 +43,18 @@ const AddCategoryForm = ({ onAddCategory, initialCategoryData, isEditing }) => {
 
     return (
         <div className="p-6">
-            <div className="mb-6">
-                <h3 className="text-lg font-bold text-gray-800 mb-2">
-                    {isEditing ? "Update Category" : "Add New Category"}
-                </h3>
-                <p className="text-gray-600 text-sm">
-                    {isEditing ? "Modify your category details" : "Create a new category for your transactions"}
-                </p>
+            <div className="flex items-center gap-3 mb-6">
+                <div className="p-3 bg-purple-100 rounded-xl">
+                    <Tag className="text-purple-600" size={28} />
+                </div>
+                <div>
+                    <h3 className="text-2xl font-bold text-gray-800">
+                        {isEditing ? "Update Category" : "Add New Category"}
+                    </h3>
+                    <p className="text-gray-600 text-sm mt-1">
+                        {isEditing ? "Modify your category details" : "Create a new category for your transactions"}
+                    </p>
+                </div>
             </div>
 
             <EmojiPickerPopup
@@ -78,10 +83,10 @@ const AddCategoryForm = ({ onAddCategory, initialCategoryData, isEditing }) => {
                     type="button"
                     onClick={handleSubmit}
                     disabled={loading}
-                    className="flex items-center gap-2 px-6 py-3 rounded-xl text-white font-medium transition-all duration-300 
+                    className="flex items-center gap-2 px-6 py-3 rounded-xl text-white font-bold transition-all duration-300 
                    bg-gradient-to-r from-purple-600 to-indigo-600 
                    hover:from-purple-700 hover:to-indigo-700 
-                   disabled:opacity-60 disabled:cursor-not-allowed shadow-lg hover:shadow-xl"
+                   disabled:opacity-60 disabled:cursor-not-allowed shadow-lg hover:shadow-xl transform hover:-translate-y-1"
                 >
                     {loading ? (
                         <>
@@ -90,6 +95,7 @@ const AddCategoryForm = ({ onAddCategory, initialCategoryData, isEditing }) => {
                         </>
                     ) : (
                         <>
+                            <Tag size={20} />
                             {isEditing ? "Update Category" : "Add Category"}
                         </>
                     )}

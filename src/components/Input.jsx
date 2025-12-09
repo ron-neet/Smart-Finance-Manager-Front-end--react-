@@ -10,14 +10,14 @@ const Input = ({ label, value, onChange, placeholder, type, isSelect, options })
     };
 
     return (
-        <div className="mb-5">
-            <label className="text-sm font-medium text-gray-700 block mb-2">
+        <div className="mb-6">
+            <label className="text-sm font-bold text-gray-800 block mb-2">
                 {label}
             </label>
             <div className="relative">
                 {isSelect ? (
                     <select
-                        className="w-full bg-white outline-none border border-gray-300 rounded-xl py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200 shadow-sm"
+                        className="w-full bg-white outline-none border border-gray-300 rounded-xl py-4 px-5 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-300 shadow-sm hover:shadow-md"
                         value={value}
                         onChange={(e) => onChange(e)}
                     >
@@ -31,7 +31,7 @@ const Input = ({ label, value, onChange, placeholder, type, isSelect, options })
                     </select>
                 ) : (
                     <input
-                        className="w-full bg-white outline-none border border-gray-300 rounded-xl py-3 px-4 pr-10 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200 shadow-sm"
+                        className="w-full bg-white outline-none border border-gray-300 rounded-xl py-4 px-5 pr-12 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-300 shadow-sm hover:shadow-md"
                         type={type === 'Password' ? (showPassword ? 'text' : 'password') : type}
                         placeholder={placeholder}
                         value={value}
@@ -40,17 +40,17 @@ const Input = ({ label, value, onChange, placeholder, type, isSelect, options })
                 )}
 
                 {type === 'Password' && (
-                    <span className="absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer">
+                    <span className="absolute right-4 top-1/2 -translate-y-1/2 cursor-pointer">
                         {showPassword ? (
                             <Eye
-                                size={20}
-                                className="text-purple-600"
+                                size={22}
+                                className="text-purple-600 hover:text-purple-800 transition-colors"
                                 onClick={togglePasswordVisibility}
                             />
                         ) : (
                             <EyeOff
-                                size={20}
-                                className="text-gray-400"
+                                size={22}
+                                className="text-gray-400 hover:text-gray-600 transition-colors"
                                 onClick={togglePasswordVisibility} />
                         )}
                     </span>

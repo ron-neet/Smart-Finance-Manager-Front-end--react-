@@ -33,7 +33,7 @@ const ProfilePhotoSelector = ({ image, setImage }) => {
   };
 
   return (
-    <div className="flex justify-center mb-6">
+    <div className="flex justify-center mb-8">
       <input
         type="file"
         ref={inputRef}
@@ -43,19 +43,19 @@ const ProfilePhotoSelector = ({ image, setImage }) => {
       />
 
       {!image ? (
-        <div className="w-24 h-24 flex items-center justify-center bg-gradient-to-br from-purple-100 to-indigo-100 rounded-2xl relative border-2 border-dashed border-purple-300 hover:border-purple-400 transition-colors">
-          <User className="text-purple-500" size={40} />
+        <div className="w-32 h-32 flex items-center justify-center bg-gradient-to-br from-purple-100 to-indigo-100 rounded-3xl relative border-2 border-dashed border-purple-300 hover:border-purple-400 transition-all duration-300 shadow-lg hover:shadow-xl">
+          <User className="text-purple-500" size={48} />
           <button
             type="button"
             onClick={onChooseFile}
-            className="w-10 h-10 flex items-center justify-center bg-gradient-to-r from-purple-500 to-indigo-500 rounded-full -bottom-2 -right-2 absolute text-white hover:from-purple-600 hover:to-indigo-600 transition-all shadow-lg"
+            className="w-12 h-12 flex items-center justify-center bg-gradient-to-r from-purple-500 to-indigo-500 rounded-full -bottom-3 -right-3 absolute text-white hover:from-purple-600 hover:to-indigo-600 transition-all duration-300 shadow-xl hover:shadow-2xl transform hover:scale-110"
           >
-            <Upload size={18} />
+            <Upload size={20} />
           </button>
         </div>
       ) : (
         <div className="relative group">
-          <div className="w-24 h-24 rounded-2xl overflow-hidden border-2 border-purple-200 shadow-lg">
+          <div className="w-32 h-32 rounded-3xl overflow-hidden border-4 border-purple-200 shadow-xl hover:shadow-2xl transition-all duration-300">
             <img
               src={previewUrl}
               alt="Profile Preview"
@@ -65,9 +65,9 @@ const ProfilePhotoSelector = ({ image, setImage }) => {
           <button
             type="button"
             onClick={handleRemoveImage}
-            className="w-8 h-8 flex items-center justify-center bg-red-500 rounded-full -top-2 -right-2 absolute text-white hover:bg-red-600 transition-all shadow-lg opacity-0 group-hover:opacity-100"
+            className="w-10 h-10 flex items-center justify-center bg-red-500 rounded-full -top-3 -right-3 absolute text-white hover:bg-red-600 transition-all duration-300 shadow-xl hover:shadow-2xl opacity-0 group-hover:opacity-100 transform hover:scale-110"
           >
-            <Trash size={16} />
+            <Trash size={18} />
           </button>
         </div>
       )}
