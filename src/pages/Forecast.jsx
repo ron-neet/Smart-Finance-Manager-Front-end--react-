@@ -63,6 +63,7 @@ const Forecast = () => {
                         <BudgetForecast 
                             incomeTransactions={dashboardData?.recent5Income || []}
                             expenseTransactions={dashboardData?.recent5Expense || []}
+                            spendingHistory={dashboardData?.spendingHistory || []}
                         />
                     ) : (
                         <div className="flex flex-col items-center justify-center h-96 bg-white rounded-2xl shadow-xl p-10 border border-gray-100 hover:shadow-2xl transition-all duration-300">

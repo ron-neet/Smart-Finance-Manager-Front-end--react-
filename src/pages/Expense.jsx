@@ -19,6 +19,8 @@ const Expense = () => {
     const [loading, setLoading] = useState(false);
 
     const [openAddExpenseModal, setOpenAddExpenseModal] = useState(false);
+    const [openEditExpenseModal, setOpenEditExpenseModal] = useState(false);
+    const [selectedExpense, setSelectedExpense] = useState(null);
     const [openDeleteAlert, setOpenDeleteAlert] = useState({
         show: false,
         data: null,
@@ -132,6 +134,31 @@ const Expense = () => {
 
     }
 
+    const handleUpdateExpense = async (updatedExpense) => {
+        setLoading(true);
+        const { name, amount, icon, date, categoryId } = updatedExpense;
+
+        try {
+            const response = await axiosConfig.put(API_ENDPOINTS.UPDATE_EXPENSE(selectedExpense.id), {
+                name,
+                amount,
+                icon,
+                date,
+                categoryId
+            });
+            if (response.status === 200 || response.status === 204) {
+                toast.success("Expense updated successfully");
+                setOpenEditExpenseModal(false);
+                setSelectedExpense(null);
+                await fetchExpenseDetails();
+            }
+        } catch (err) {
+            toast.error("Failed to update Expense");
+        } finally {
+            setLoading(false);
+        }
+    }
+
     const handleDownloadExpenseDetails = async () => {
         try {
             const response = await axiosConfig.get(API_ENDPOINTS.EXPENSE_EXCEL_DOWNLOAD, { responseType: 'blob' });
@@ -233,6 +260,10 @@ const Expense = () => {
                             onDownload={handleDownloadExpenseDetails}
                             onEmail={handleEmailExpenseDetails}
                             onDelete={(id) => setOpenDeleteAlert({ show: true, data: id })}
+                            onEdit={(expense) => {
+                                setSelectedExpense(expense);
+                                setOpenEditExpenseModal(true);
+                            }}
                         />
                     </div>
 
@@ -245,6 +276,23 @@ const Expense = () => {
                         <AddExpenseForm
                             onAddExpense={(expense) => handleAddExpense(expense)}
                             categories={categories}
+                        />
+                    </Modal>
+
+                    {/* Edit Expense Modal */}
+                    <Modal
+                        isOpen={openEditExpenseModal}
+                        onClose={() => {
+                            setOpenEditExpenseModal(false);
+                            setSelectedExpense(null);
+                        }}
+                        title="Edit Expense"
+                    >
+                        <AddExpenseForm
+                            onAddExpense={(expense) => handleUpdateExpense(expense)}
+                            categories={categories}
+                            initialData={selectedExpense}
+                            isEditing={true}
                         />
                     </Modal>
 

@@ -16,7 +16,7 @@ axiosConfig.interceptors.request.use(
       return config.url?.includes(endpoint)
     });
 
-    if (!shouldSkipToken) {
+    if (!shouldSkipToken) { 
       const accessToken = localStorage.getItem("token");
       if (accessToken) {
         config.headers.Authorization = `Bearer ${accessToken}`;
@@ -31,13 +31,23 @@ axiosConfig.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response) {
-      if (error.response.status === 401 && !error.config.url.includes("/login")) {
-        console.error("Unauthorized! Redirecting to login...");
-        window.location.href = "/login";
-      } else if (error.response.status === 500) {
-        alert("Server Error! Please try again later.");
-      } else if (error.response.status === 403) {
-        alert("Forbidden! You don't have permission to access this resource.");
+      const status = error.response.status;
+      const originalRequest = error.config;
+
+      // Handle Unauthorized (401) and Forbidden (403)
+      if ((status === 401 || status === 403) && !originalRequest.url.includes("/login")) {
+        console.error(`${status === 401 ? 'Unauthorized' : 'Forbidden'}! Redirecting to login...`);
+        
+        // Clear expired session data
+        localStorage.removeItem("token");
+        localStorage.removeItem("user");
+        
+        // Redirect if not already on login page
+        if (window.location.pathname !== "/login") {
+          window.location.href = "/login";
+        }
+      } else if (status === 500) {
+        console.error("Internal Server Error");
       }
     } else if (error.request) {
       alert("No response from server. Please check your network.");

@@ -8,24 +8,33 @@ const Dashboard = ({children, activeMenu}) => {
   const { user } = useContext(AppContext);
   
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-purple-50 to-indigo-50">
       <MenuBar activeMenu={activeMenu} />
-
-     {user && (
       
-        <div className="flex mt-6">
+      {user ? (
+        <div className="flex animate-fadeIn">
           <div className="max-[1080px]:hidden">
             <Sidebar activeMenu={activeMenu} />
           </div>
 
-          <div className="grow mx-5 bg-gradient-to-br from-white to-gray-50 p-6 rounded-2xl shadow-xl border border-gray-100 mb-6">
+          <div className="flex-1 mx-6 my-6 bg-white/80 backdrop-blur-xl rounded-3xl shadow-2xl border border-white/30 p-8">
             {/* Main Content Area */}
-            {children}
+            <div className="h-full max-h-screen overflow-y-auto pr-2 custom-scrollbar">
+              {children}
+            </div>
           </div>
-        </div>)}
+        </div>
+      ) : (
+        <div className="flex justify-center items-center h-[calc(100vh-100px)]">
+           <div className="animate-pulse flex flex-col items-center gap-4">
+              <div className="w-16 h-16 bg-gradient-to-br from-purple-400 to-indigo-500 rounded-full shadow-lg"></div>
+              <p className="text-purple-600 font-bold animate-bounce">Authenticating...</p>
+           </div>
+        </div>
+      )}
  
     </div>
   );
 };
 
-export default Dashboard; 
+export default Dashboard;

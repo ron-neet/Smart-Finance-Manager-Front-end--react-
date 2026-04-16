@@ -6,6 +6,7 @@ export const API_ENDPOINTS = {
   LOGIN: "/login",
   REGISTER: "/register",
   GET_USER_INFO: "/profile",
+  UPDATE_PROFILE: "/profile",
   GET_ALL_CATEGORIES: "/category",
   ADD_CATEGORIES: "/category",
   UPDATE_CATEGORY: (categoryId) => `/category/${categoryId}`,
@@ -13,9 +14,11 @@ export const API_ENDPOINTS = {
   GET_ALL_EXPENSES:"/expense",
   CATEGORY_BY_TYPE: (type) => `/category?type=${type}`,
   ADD_INCOME: "/income",
+  UPDATE_INCOME: (incomeId) => `/income/${incomeId}`,
   DELETE_INCOME: (incomeId) => `/income/${incomeId}`,
   INCOME_EXCEL_DOWNLOAD: "/income/export",
   ADD_EXPENSE: "/expense",
+  UPDATE_EXPENSE: (expenseId) => `/expense/${expenseId}`,
   DELETE_EXPENSE: (expenseId) => `/expense/${expenseId}`,
   EXPENSE_EXCEL_DOWNLOAD: "/expense/export",
   APPLY_FILTER: "/filter",
@@ -35,5 +38,12 @@ export const API_ENDPOINTS = {
   GET_NOTIFICATIONS: "/notifications",
   MARK_NOTIFICATION_READ: (id) => `/notifications/${id}/read`,
   // Currency
-  GET_EXCHANGE_RATES: "/currency/rates"
+  GET_EXCHANGE_RATES: "/currency/rates",
+  // Admin endpoints
+  ADMIN_GET_ALL_USERS: "/admin/users",
+  ADMIN_PROMOTE_USER: (userId) => `/admin/users/${userId}/promote`,
+  ADMIN_DEMOTE_USER: (userId) => `/admin/users/${userId}/demote`,
+  ADMIN_SUSPEND_USER: (userId) => `/admin/users/${userId}/suspend`,
+  ADMIN_ACTIVATE_USER: (userId) => `/admin/users/${userId}/activate`,
+  ADMIN_DELETE_USER: (userId) => `/admin/users/${userId}`
 };

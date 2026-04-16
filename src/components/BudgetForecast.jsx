@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { TrendingUp, TrendingDown, Minus, Info, Brain, Target } from "lucide-react";
 import CustomLineChart from "./CustomLineChart";
-import { predictFutureTransactions, calculateProjectedSavings, calculateFinancialHealthScore } from "../util/forecasting";
+import { predictFutureTransactions, calculateProjectedSavings, calculateFinancialHealthScore, predictFromHistory } from "../util/forecasting";
 import { addThousandsSeparator } from "../util/utils";
 
-const BudgetForecast = ({ incomeTransactions, expenseTransactions }) => {
+const BudgetForecast = ({ incomeTransactions, expenseTransactions, spendingHistory = [] }) => {
   const [forecastData, setForecastData] = useState([]);
   const [savingsProjections, setSavingsProjections] = useState([]);
   const [healthScore, setHealthScore] = useState({ score: 0, breakdown: {} });
@@ -14,11 +14,34 @@ const BudgetForecast = ({ incomeTransactions, expenseTransactions }) => {
     if (incomeTransactions && expenseTransactions) {
       setLoading(true);
       
-      // Combine all transactions for analysis
+      // Combine raw transactions for basic analysis
       const allTransactions = [...incomeTransactions, ...expenseTransactions];
       
-      // Generate forecast for 6 months
-      const predictions = predictFutureTransactions(allTransactions, 6); // 6 months forecast
+      // Generate predictions: Use aggregated history if more than 2 months available, 
+      // otherwise fallback to raw transaction analysis
+      let predictions = [];
+      
+      if (spendingHistory && spendingHistory.length >= 2) {
+        const histPredictions = predictFromHistory(spendingHistory, 6);
+        // Map history-based predictions to the generic format
+        const today = new Date();
+        predictions = histPredictions.map(p => {
+          const futureDate = new Date(today);
+          futureDate.setMonth(futureDate.getMonth() + p.monthOffset);
+          return {
+            ...p,
+            date: futureDate.toISOString().split('T')[0],
+            category: 'Total Distribution'
+          };
+        });
+        
+        // Also add basic income predictions from raw transactions
+        const rawIncomePreds = predictFutureTransactions(incomeTransactions, 6).filter(p => p.type === 'income');
+        predictions = [...predictions, ...rawIncomePreds];
+      } else {
+        predictions = predictFutureTransactions(allTransactions, 6);
+      }
+      
       setForecastData(predictions);
       
       // Calculate savings projections
@@ -31,7 +54,7 @@ const BudgetForecast = ({ incomeTransactions, expenseTransactions }) => {
       
       setLoading(false);
     }
-  }, [incomeTransactions, expenseTransactions]);
+  }, [incomeTransactions, expenseTransactions, spendingHistory]);
 
   // Format forecast data for the chart
   const formatChartData = () => {

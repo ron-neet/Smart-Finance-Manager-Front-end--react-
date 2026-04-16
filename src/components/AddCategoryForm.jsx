@@ -42,16 +42,16 @@ const AddCategoryForm = ({ onAddCategory, initialCategoryData, isEditing }) => {
     }
 
     return (
-        <div className="p-6">
-            <div className="flex items-center gap-3 mb-6">
-                <div className="p-3 bg-purple-100 rounded-xl">
-                    <Tag className="text-purple-600" size={28} />
+        <div className="p-8">
+            <div className="flex items-center gap-4 mb-8">
+                <div className="p-4 bg-gradient-to-br from-purple-500 to-indigo-600 rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105">
+                    <Tag className="text-white" size={32} />
                 </div>
                 <div>
-                    <h3 className="text-2xl font-bold text-gray-800">
+                    <h3 className="text-3xl font-bold bg-gradient-to-r from-purple-600 to-indigo-600 bg-clip-text text-transparent">
                         {isEditing ? "Update Category" : "Add New Category"}
                     </h3>
-                    <p className="text-gray-600 text-sm mt-1">
+                    <p className="text-gray-600 text-base mt-2 font-medium">
                         {isEditing ? "Modify your category details" : "Create a new category for your transactions"}
                     </p>
                 </div>
@@ -78,24 +78,25 @@ const AddCategoryForm = ({ onAddCategory, initialCategoryData, isEditing }) => {
                 options={categoryTypeOptions}
             />
 
-            <div className="flex justify-end mt-8 pt-6 border-t border-gray-100">
+            <div className="flex justify-end mt-10 pt-8 border-t-2 border-purple-100">
                 <button
                     type="button"
                     onClick={handleSubmit}
                     disabled={loading}
-                    className="flex items-center gap-2 px-6 py-3 rounded-xl text-white font-bold transition-all duration-300 
-                   bg-gradient-to-r from-purple-600 to-indigo-600 
-                   hover:from-purple-700 hover:to-indigo-700 
-                   disabled:opacity-60 disabled:cursor-not-allowed shadow-lg hover:shadow-xl transform hover:-translate-y-1"
+                    className="flex items-center gap-3 px-8 py-4 rounded-2xl text-white font-bold transition-all duration-300 
+                   bg-gradient-to-r from-purple-600 via-purple-500 to-indigo-600 
+                   hover:from-purple-700 hover:via-purple-600 hover:to-indigo-700 
+                   disabled:opacity-60 disabled:cursor-not-allowed shadow-2xl hover:shadow-3xl transform hover:-translate-y-1 hover:scale-[1.02]
+                   focus:outline-none focus:ring-4 focus:ring-purple-300"
                 >
                     {loading ? (
                         <>
-                            <LoaderCircle className="w-5 h-5 animate-spin" />
+                            <LoaderCircle className="w-6 h-6 animate-spin" />
                             {isEditing ? "Updating..." : "Adding..."}
                         </>
                     ) : (
                         <>
-                            <Tag size={20} />
+                            <Tag size={22} />
                             {isEditing ? "Update Category" : "Add Category"}
                         </>
                     )}

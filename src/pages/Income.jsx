@@ -19,6 +19,8 @@ const Income = () => {
     const [loading, setLoading] = useState(false);
 
     const [openAddIncomeModal, setOpenAddIncomeModal] = useState(false);
+    const [openEditIncomeModal, setOpenEditIncomeModal] = useState(false);
+    const [selectedIncome, setSelectedIncome] = useState(null);
     const [openDeleteAlert, setOpenDeleteAlert] = useState({
         show: false,
         data: null,
@@ -126,6 +128,31 @@ const Income = () => {
 
     }
 
+    const handleUpdateIncome = async (updatedIncome) => {
+        setLoading(true);
+        const { name, amount, icon, date, categoryId } = updatedIncome;
+
+        try {
+            const response = await axiosConfig.put(API_ENDPOINTS.UPDATE_INCOME(selectedIncome.id), {
+                name,
+                amount,
+                icon,
+                date,
+                categoryId
+            });
+            if (response.status === 200 || response.status === 204) {
+                toast.success("Income updated successfully");
+                setOpenEditIncomeModal(false);
+                setSelectedIncome(null);
+                await fetchIncomeDetails();
+            }
+        } catch (err) {
+            toast.error("Failed to update Income");
+        } finally {
+            setLoading(false);
+        }
+    }
+
     const handleDownloadIncomeDetails = async () => {
         try {
             const response = await axiosConfig.get(API_ENDPOINTS.INCOME_EXCEL_DOWNLOAD, { responseType: 'blob' });
@@ -228,6 +255,10 @@ const Income = () => {
                             onDownload={handleDownloadIncomeDetails}
                             onEmail={handleEmailIncomeDetails}
                             onDelete={(id) => setOpenDeleteAlert({ show: true, data: id })}
+                            onEdit={(income) => {
+                                setSelectedIncome(income);
+                                setOpenEditIncomeModal(true);
+                            }}
                         />
                     </div>
 
@@ -240,6 +271,23 @@ const Income = () => {
                         <AddIncomeForm
                             onAddIncome={(income) => handleAddIncome(income)}
                             categories={categories}
+                        />
+                    </Modal>
+
+                    {/* Edit Income Modal */}
+                    <Modal
+                        isOpen={openEditIncomeModal}
+                        onClose={() => {
+                            setOpenEditIncomeModal(false);
+                            setSelectedIncome(null);
+                        }}
+                        title="Edit Income"
+                    >
+                        <AddIncomeForm
+                            onAddIncome={(income) => handleUpdateIncome(income)}
+                            categories={categories}
+                            initialData={selectedIncome}
+                            isEditing={true}
                         />
                     </Modal>
 

@@ -61,5 +61,5 @@ export const SIDE_BAR_DATA = [
         label : "Filter",
         icon : FunnelPlus,
         path : "/filter"
-    },
+    }
 ];

@@ -58,7 +58,7 @@ const Category = () => {
         try {
             const response = await axiosConfig.post(API_ENDPOINTS.ADD_CATEGORIES, { name, type, icon });
 
-            if (response.status === 200) {
+            if (response.status === 200 || response.status === 201) {
                 toast.success("Category added successfully");
                 setOpenAddCategoryModal(false);
                 fetchCategoriesDetails();
@@ -104,58 +104,58 @@ const Category = () => {
     return (
         <div>
             <Dashboard activeMenu="Category">
-                <div className="my-5 mx-auto">
+                <div className="my-5 mx-auto max-w-7xl">
                     {/* Header */}
-                    <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
+                    <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-10">
                         <div>
-                            <h1 className="text-4xl font-bold text-gray-800">Category Management</h1>
-                            <p className="text-gray-600 mt-2 text-lg">Organize your income and expense categories</p>
+                            <h1 className="text-5xl font-bold bg-gradient-to-r from-purple-600 to-indigo-600 bg-clip-text text-transparent mb-3">Category Management</h1>
+                            <p className="text-gray-600 mt-2 text-xl font-medium">Organize your income and expense categories</p>
                         </div>
                         <button
                             onClick={() => setOpenAddCategoryModal(true)}
-                            className="flex items-center gap-2 bg-gradient-to-r from-purple-600 to-indigo-600 text-white px-6 py-3 rounded-xl hover:from-purple-700 hover:to-indigo-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1 font-bold"
+                            className="flex items-center gap-3 bg-gradient-to-r from-purple-600 via-purple-500 to-indigo-600 text-white px-8 py-4 rounded-2xl hover:from-purple-700 hover:via-purple-600 hover:to-indigo-700 transition-all duration-300 shadow-2xl hover:shadow-3xl transform hover:-translate-y-1 hover:scale-[1.02] font-bold text-lg"
                         >
-                            <Plus size={22} />
+                            <Plus size={24} />
                             <span>Add Category</span>
                         </button>
                     </div>
 
                     {/* Stats Cards */}
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-                        <div className="bg-gradient-to-br from-purple-500 to-indigo-600 rounded-2xl shadow-xl p-6 text-white border border-purple-300 hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-10">
+                        <div className="bg-gradient-to-br from-purple-600 via-purple-500 to-indigo-700 rounded-3xl shadow-2xl p-8 text-white border-2 border-purple-300 hover:shadow-3xl transition-all duration-300 transform hover:-translate-y-3 hover:scale-[1.02]">
                             <div className="flex items-center justify-between">
                                 <div>
-                                    <p className="text-purple-100 text-sm font-bold">Total Categories</p>
-                                    <h3 className="text-3xl font-bold mt-2">{categoryData.length}</h3>
+                                    <p className="text-purple-100 text-base font-bold">Total Categories</p>
+                                    <h3 className="text-4xl font-bold mt-3">{categoryData.length}</h3>
                                 </div>
-                                <div className="p-3 bg-white bg-opacity-20 rounded-full">
-                                    <Layers className="h-8 w-8 text-indigo-800" />
+                                <div className="p-4 bg-white bg-opacity-25 rounded-2xl backdrop-blur-sm">
+                                    <Layers className="h-10 w-10 text-white" />
                                 </div>
                             </div>
                         </div>
 
-                        <div className="bg-gradient-to-br from-green-500 to-emerald-600 rounded-2xl shadow-xl p-6 text-white border border-green-300 hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
+                        <div className="bg-gradient-to-br from-green-600 via-green-500 to-emerald-700 rounded-3xl shadow-2xl p-8 text-white border-2 border-green-300 hover:shadow-3xl transition-all duration-300 transform hover:-translate-y-3 hover:scale-[1.02]">
                             <div className="flex items-center justify-between">
                                 <div>
-                                    <p className="text-green-100 text-sm font-bold">Income Categories</p>
-                                    <h3 className="text-3xl font-bold mt-2">{incomeCategories}</h3>
+                                    <p className="text-green-100 text-base font-bold">Income Categories</p>
+                                    <h3 className="text-4xl font-bold mt-3">{incomeCategories}</h3>
                                 </div>
-                                <div className="p-3 bg-white bg-opacity-20 rounded-full">
-                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-indigo-800" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <div className="p-4 bg-white bg-opacity-25 rounded-2xl backdrop-blur-sm">
+                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-10 w-10 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                                     </svg>
                                 </div>
                             </div>
                         </div>
 
-                        <div className="bg-gradient-to-br from-rose-500 to-red-600 rounded-2xl shadow-xl p-6 text-white border border-rose-300 hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
+                        <div className="bg-gradient-to-br from-rose-600 via-rose-500 to-red-700 rounded-3xl shadow-2xl p-8 text-white border-2 border-rose-300 hover:shadow-3xl transition-all duration-300 transform hover:-translate-y-3 hover:scale-[1.02]">
                             <div className="flex items-center justify-between">
                                 <div>
-                                    <p className="text-rose-100 text-sm font-bold">Expense Categories</p>
-                                    <h3 className="text-3xl font-bold mt-2">{expenseCategories}</h3>
+                                    <p className="text-rose-100 text-base font-bold">Expense Categories</p>
+                                    <h3 className="text-4xl font-bold mt-3">{expenseCategories}</h3>
                                 </div>
-                                <div className="p-3 bg-white bg-opacity-20 rounded-full">
-                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-indigo-800" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <div className="p-4 bg-white bg-opacity-25 rounded-2xl backdrop-blur-sm">
+                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-10 w-10 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                                     </svg>
                                 </div>
@@ -164,7 +164,7 @@ const Category = () => {
                     </div>
 
                     {/* Category List */}
-                    <div className="bg-white rounded-2xl shadow-xl p-6 border border-gray-100 hover:shadow-2xl transition-all duration-300">
+                    <div className="bg-white/90 backdrop-blur-xl rounded-3xl shadow-2xl p-8 border-2 border-purple-100 hover:shadow-3xl transition-all duration-300">
                         <CategoryList categories={categoryData} onEditCategory={handleEditCategory} />
                     </div>
 

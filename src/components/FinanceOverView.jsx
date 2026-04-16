@@ -1,8 +1,11 @@
 import { addThousandsSeparator } from "../util/utils";
 import CustomPieChart from "./CustomPieChart";
-import { TrendingUp, TrendingDown, Wallet } from "lucide-react";
+import SpendingTrendChart from "./SpendingTrendChart";
+import { TrendingUp, TrendingDown, Wallet, BarChart3, PieChart as PieChartIcon } from "lucide-react";
+import { useState } from "react";
 
-const FinanceOverView = ({ totalBalance, totalIncome, totalExpense }) => {
+const FinanceOverView = ({ totalBalance, totalIncome, totalExpense, spendingHistory = [] }) => {
+    const [activeTab, setActiveTab] = useState("trend"); // "trend" or "distribution"
 
     const COLORS = ["#59168B", "#016630", "#a0090e"];
 
@@ -30,9 +33,21 @@ const FinanceOverView = ({ totalBalance, totalIncome, totalExpense }) => {
                     </div>
                     <h5 className="text-xl font-bold text-gray-800">Finance Overview</h5>
                 </div>
-                <div className="flex items-center gap-2 bg-gradient-to-r from-purple-500 to-indigo-500 text-white px-4 py-2 rounded-lg shadow-md">
-                    <span className="font-bold text-lg">${addThousandsSeparator(totalBalance || 0)}</span>
-                    <span className="text-sm">Balance</span>
+                <div className="flex items-center gap-3 bg-purple-100 p-1.5 rounded-xl">
+                    <button 
+                        onClick={() => setActiveTab("trend")}
+                        className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-all font-bold ${activeTab === "trend" ? 'bg-white shadow-md text-purple-700' : 'text-purple-500 hover:text-purple-600'}`}
+                    >
+                        <TrendingUp size={18} />
+                        Trend
+                    </button>
+                    <button 
+                        onClick={() => setActiveTab("distribution")}
+                        className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-all font-bold ${activeTab === "distribution" ? 'bg-white shadow-md text-purple-700' : 'text-purple-500 hover:text-purple-600'}`}
+                    >
+                        <PieChartIcon size={18} />
+                        Distribution
+                    </button>
                 </div>
             </div>
             
@@ -65,11 +80,17 @@ const FinanceOverView = ({ totalBalance, totalIncome, totalExpense }) => {
                 </div>
             </div>
             
-            <CustomPieChart 
-                data={balanceData}
-                colors={COLORS}
-                totalAmount={`$${addThousandsSeparator(totalBalance || 0)}`}
-            />
+            <div className="mt-8">
+                {activeTab === "trend" ? (
+                    <SpendingTrendChart data={spendingHistory} />
+                ) : (
+                    <CustomPieChart 
+                        data={balanceData}
+                        colors={COLORS}
+                        totalAmount={`$${addThousandsSeparator(totalBalance || 0)}`}
+                    />
+                )}
+            </div>
         </div>
     )
 }

@@ -2,7 +2,7 @@ import { Download, Mail, TrendingDown } from "lucide-react";
 import TransactionInfoCard from "./TransactionInfoCard";
 import moment from "moment";
 
-const ExpenseList = ({ transactions, onDelete, onDownload, onEmail }) => {
+const ExpenseList = ({ transactions, onDelete, onEdit, onDownload, onEmail }) => {
     return (
         <div className="bg-white rounded-2xl shadow-xl p-6 border border-gray-100">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
@@ -48,6 +48,7 @@ const ExpenseList = ({ transactions, onDelete, onDownload, onEmail }) => {
                             amount={expense.amount}
                             type="expense"
                             onDelete={() => onDelete(expense.id)}
+                            onEdit={() => onEdit(expense)}
                         />
                     ))}
                 </div>

@@ -4,14 +4,14 @@ import EmojiPickerPopup from "./EmojiPickerPopup";
 import Input from "./Input";
 import { LoaderCircle, TrendingUp } from "lucide-react";
 
-const AddIncomeForm = ({ onAddIncome, categories }) => {
+const AddIncomeForm = ({ onAddIncome, categories, initialData, isEditing }) => {
 
     const [income, setIncome] = useState({
-        name: "",
-        amount: "",
-        icon: "",
-        date: "",
-        categoryId: ""
+        name: initialData?.name || "",
+        amount: initialData?.amount || "",
+        icon: initialData?.icon || "",
+        date: initialData?.date ? new Date(initialData.date).toISOString().split('T')[0] : "",
+        categoryId: initialData?.categoryId || ""
     });
 
     const [loading, setLoading] = useState(false);
@@ -37,11 +37,10 @@ const AddIncomeForm = ({ onAddIncome, categories }) => {
     }
 
     useEffect(()=>{
-        console.log("Income state updated:", income);
-        if(categories.length > 0 && !income.categoryId){
+        if(!isEditing && categories.length > 0 && !income.categoryId){
             setIncome((prev)=>({...prev, categoryId: categories[0].id}));
         }
-        }, [categories, income.categoryId]);
+        }, [categories, income.categoryId, isEditing]);
 
     return (
         <div className="p-2">
@@ -49,7 +48,7 @@ const AddIncomeForm = ({ onAddIncome, categories }) => {
                 <div className="p-3 bg-green-100 rounded-xl">
                     <TrendingUp className="text-green-600" size={28} />
                 </div>
-                <h3 className="text-2xl font-bold text-gray-800">Add New Income</h3>
+                <h3 className="text-2xl font-bold text-gray-800">{isEditing ? "Update Income" : "Add New Income"}</h3>
             </div>
             
             <EmojiPickerPopup
@@ -98,12 +97,12 @@ const AddIncomeForm = ({ onAddIncome, categories }) => {
                     {loading ? (
                         <>
                             <LoaderCircle className="animate-spin" size={20} />
-                            Adding...
+                            {isEditing ? "Updating..." : "Adding..."}
                         </>
                     ) : (
                         <>
                             <TrendingUp size={20} />
-                            Add Income
+                            {isEditing ? "Update Income" : "Add Income"}
                         </>
                     )}
                 </button>

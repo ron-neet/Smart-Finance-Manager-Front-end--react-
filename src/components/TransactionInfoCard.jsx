@@ -1,8 +1,8 @@
-import { Trash2, TrendingDown, TrendingUp, UtensilsCrossed } from "lucide-react";
+import { Trash2, TrendingDown, TrendingUp, UtensilsCrossed, Pencil } from "lucide-react";
 import { addThousandsSeparator } from "../util/utils";
 
 
-const TransactionInfoCard = ({ icon, title, date, amount, type, hideDeleteBtn, onDelete }) => {
+const TransactionInfoCard = ({ icon, title, date, amount, type, hideDeleteBtn, onDelete, onEdit }) => {
 
     // Ensure type is a valid string, default to 'expense' if not provided or invalid
     const normalizedType = (typeof type === 'string') ? type.toLowerCase() : 'expense';
@@ -26,6 +26,15 @@ const TransactionInfoCard = ({ icon, title, date, amount, type, hideDeleteBtn, o
                     <p className="text-sm text-gray-500 mt-1">{date}</p>
                 </div>
                 <div className="flex items-center gap-3">
+                    {onEdit && (
+                        <button
+                            className="text-gray-400 hover:text-purple-600 group-hover:opacity-100 transition-all duration-300 cursor-pointer opacity-0 p-2 rounded-lg hover:bg-purple-50"
+                            onClick={onEdit}
+                        >
+                            <Pencil size={18} />
+                        </button>
+                    )}
+
                     {!hideDeleteBtn && (
                         <button
                             className="text-gray-400 hover:text-red-500 group-hover:opacity-100 transition-all duration-300 cursor-pointer opacity-0 p-2 rounded-lg hover:bg-red-50"

@@ -4,14 +4,14 @@ import EmojiPickerPopup from "./EmojiPickerPopup";
 import Input from "./Input";
 import { LoaderCircle, TrendingDown } from "lucide-react";
 
-const AddExpenseForm = ({ onAddExpense, categories }) => {
+const AddExpenseForm = ({ onAddExpense, categories, initialData, isEditing }) => {
 
     const [expense, setExpense] = useState({
-        name: "",
-        amount: "",
-        icon: "",
-        date: "",
-        categoryId: ""
+        name: initialData?.name || "",
+        amount: initialData?.amount || "",
+        icon: initialData?.icon || "",
+        date: initialData?.date ? new Date(initialData.date).toISOString().split('T')[0] : "",
+        categoryId: initialData?.categoryId || ""
     });
 
     const [loading, setLoading] = useState(false);
@@ -37,11 +37,10 @@ const AddExpenseForm = ({ onAddExpense, categories }) => {
     }
 
     useEffect(()=>{
-        console.log("Expense state updated:", expense);
-        if(categories.length > 0 && !expense.categoryId){
+        if(!isEditing && categories.length > 0 && !expense.categoryId){
             setExpense((prev)=>({...prev, categoryId: categories[0].id}));
         }
-        }, [categories, expense.categoryId]);
+        }, [categories, expense.categoryId, isEditing]);
 
     return (
         <div className="p-2">
@@ -49,7 +48,7 @@ const AddExpenseForm = ({ onAddExpense, categories }) => {
                 <div className="p-3 bg-red-100 rounded-xl">
                     <TrendingDown className="text-red-600" size={28} />
                 </div>
-                <h3 className="text-2xl font-bold text-gray-800">Add New Expense</h3>
+                <h3 className="text-2xl font-bold text-gray-800">{isEditing ? "Update Expense" : "Add New Expense"}</h3>
             </div>
             
             <EmojiPickerPopup
@@ -98,12 +97,12 @@ const AddExpenseForm = ({ onAddExpense, categories }) => {
                     {loading ? (
                         <>
                             <LoaderCircle className="animate-spin" size={20} />
-                            Adding...
+                            {isEditing ? "Updating..." : "Adding..."}
                         </>
                     ) : (
                         <>
                             <TrendingDown size={20} />
-                            Add Expense
+                            {isEditing ? "Update Expense" : "Add Expense"}
                         </>
                     )}
                 </button>

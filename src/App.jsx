@@ -12,6 +12,12 @@ import Forecast from "./pages/Forecast";
 import Planning from "./pages/Planning";
 import Budget from "./pages/Budget";
 import Recurring from "./pages/Recurring";
+// Admin Pages
+import AdminDashboard from "./pages/AdminDashboard";
+import UserManagement from "./pages/UserManagement";
+// Admin Layout
+import AdminLayout from "./components/AdminLayout";
+import Landing from "./pages/Landing";
 
 const App = () => {
   return (
@@ -19,6 +25,7 @@ const App = () => {
       <Toaster />
       <BrowserRouter>
         <Routes>
+          <Route path="/" element={<Landing />} />
           <Route path="/dashboard" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
@@ -30,6 +37,11 @@ const App = () => {
           <Route path="/filter" element={<Filter />} />
           <Route path="/budget" element={<Budget />} />
           <Route path="/recurring" element={<Recurring />} />
+          {/* Admin Routes */}
+          <Route element={<AdminLayout />}>
+            <Route path="/admin/dashboard" element={<AdminDashboard />} />
+            <Route path="/admin/users" element={<UserManagement />} />
+          </Route>
         </Routes>
       </BrowserRouter>
     </>
